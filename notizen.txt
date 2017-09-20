@@ -1,0 +1,10 @@
+Die Kugeln mit den Nummern 1 bis 8 bezeichnet man auch als die Vollen und die Kugeln 9 bis 15 als die Halben, da letztere nur zur Hälfte eingefärbt sind. Dabei sind den Nummern folgende Farben zugeordnet:
+
+1/9 = Gelb
+2/10 = Blau
+3/11 = Rot
+4/12 = Lila bzw. Pink1
+5/13 = Orange
+6/14 = Grün
+7/15 = Braun1
+8 = Schwarz
