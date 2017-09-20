@@ -81,19 +81,20 @@
 		    })();
 
 		function init() {
+			// Create Table
 			var table = document.createElement('div');
 			table.id = 'table';
 			document.body.appendChild(table);
 			
-		    initBalls();//INIT BALLS & PHYSICS
+			//INIT BALLS & PHYSICS
+		    initBalls();
 		}
 
 		function initBalls() {
 		    var minDist = window.innerHeight / maxBalls;
 
 			//ADD maxBalls
-			for (var i=0;i<maxBalls;i++)
-			{ 
+			for (var i=0;i<maxBalls;i++) { 
 				var ball = document.createElement("div");
 				ball.className = "ball blue";
 				
