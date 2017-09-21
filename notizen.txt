@@ -8,3 +8,6 @@ Die Kugeln mit den Nummern 1 bis 8 bezeichnet man auch als die Vollen und die Ku
 6/14 = Grün
 7/15 = Braun1
 8 = Schwarz
+
+bouncingballs description
+http://www.emanueleferonato.com/2007/08/19/managing-ball-vs-ball-collision-with-flash/
