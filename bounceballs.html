@@ -221,6 +221,10 @@
 				//GET THE NEW POSITION
 				ballsArray[i].left += ballsArray[i].xspeed;
 				ballsArray[i].top += ballsArray[i].yspeed;
+
+				// slowing down 
+				ballsArray[i].xspeed -= ballsArray[i].xspeed*0.01;
+				ballsArray[i].yspeed -= ballsArray[i].yspeed*0.01;
 				
 				//APPLY THE NEW POSITION
 				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
@@ -262,6 +266,8 @@
 
 		function tick() {
 		    moveBall();
+
+		    var anyballmoving = false;
 		    
 		    for (x=0; x<=billardballs.length; x++) {
 		        for (y=x+1; y<billardballs.length; y++) {
@@ -288,9 +294,17 @@
 		        	
 		        	//window.console.log(distance)
 		        }
-		     }
-		    
-		    requestAnimFrame( tick );//RUN THE NEXT TICK
+		        // if (ballsArray[x].yspeed>0 && ballsArray[x].xspeed>0) {
+		        // 	anyballmoving = true;
+		        // }
+		    }
+
+		    // play untill anyball is moving
+		    // if (anyballmoving) {
+		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
+		    // } else {
+		    // 	console.log('end');
+		    // }
 		}
 
 	</script>
