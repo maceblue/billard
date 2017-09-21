@@ -39,7 +39,6 @@
 			position:absolute;
 			width:100%;
 			height:100%;
-			border-radius:50%;
 		}
 
 		.ball>div>span{
@@ -56,15 +55,38 @@
 			background:#fff;
 		}
 
+		.ball.yellow {
+			background: radial-gradient(circle at 20px 20px, #fc0, #001);
+		}
 		.ball.blue {
 			background: radial-gradient(circle at 20px 20px, #09f, #001);
 		}
+		.ball.red {
+			background: radial-gradient(circle at 20px 20px, #f30, #001);
+		}
+		.ball.pink {
+			background: radial-gradient(circle at 20px 20px, #80f, #001);
+		}
+		.ball.orange {
+			background: radial-gradient(circle at 20px 20px, #f70, #001);
+		}
+		.ball.green {
+			background: radial-gradient(circle at 20px 20px, #0f4, #001);
+		}
+		.ball.brown {
+			background: radial-gradient(circle at 20px 20px, #960, #001);
+		}
+		.ball.black {
+			background: radial-gradient(circle at 20px 20px, #000, #001);
+		}
+
 
 	</style>
 
 	<script type='text/javascript'>
-		var ballsArray =[];
-		var maxBalls = 5;
+		var ballsArray = [];
+		var billardballs = [];
+		
 		var speedLimit = 14;
 		var tableheight = 400;
 		var tablewidth = 800;
@@ -91,12 +113,63 @@
 		}
 
 		function initBalls() {
-		    var minDist = window.innerHeight / maxBalls;
+		    
+
+			var ball_yellow_full = new Object();
+			ball_yellow_full.color = 'yellow';
+			ball_yellow_full.number = '1';
+			ball_yellow_full.full = true;
+			billardballs.push(ball_yellow_full);
+
+			var ball_blue_full = new Object();
+			ball_blue_full.color = 'blue';
+			ball_blue_full.number = '2';
+			ball_blue_full.full = true;
+			billardballs.push(ball_blue_full);
+
+			var ball_red_full = new Object();
+			ball_red_full.color = 'red';
+			ball_red_full.number = '3';
+			ball_red_full.full = true;
+			billardballs.push(ball_red_full);
+
+			var ball_pink_full = new Object();
+			ball_pink_full.color = 'pink';
+			ball_pink_full.number = '4';
+			ball_pink_full.full = true;
+			billardballs.push(ball_pink_full);
+
+			var ball_orange_full = new Object();
+			ball_orange_full.color = 'orange';
+			ball_orange_full.number = '5';
+			ball_orange_full.full = true;
+			billardballs.push(ball_orange_full);
+
+			var ball_green_full = new Object();
+			ball_green_full.color = 'green';
+			ball_green_full.number = '6';
+			ball_green_full.full = true;
+			billardballs.push(ball_green_full);
+
+			var ball_brown_full = new Object();
+			ball_brown_full.color = 'brown';
+			ball_brown_full.number = '7';
+			ball_brown_full.full = true;
+			billardballs.push(ball_brown_full);
+
+			var ball_black_full = new Object();
+			ball_black_full.color = 'black';
+			ball_black_full.number = '8';
+			ball_black_full.full = true;
+			billardballs.push(ball_black_full);
+
+			var minDist = window.innerHeight / billardballs.length;
+
 
 			//ADD maxBalls
-			for (var i=0;i<maxBalls;i++) { 
+			for (var i=0;i<billardballs.length;i++) { 
 				var ball = document.createElement("div");
-				ball.className = "ball blue";
+				ball.className = "ball " + billardballs[i].color;
 				
 				ball.left = Math.round(Math.random()*window.innerWidth-30);
 	            ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
@@ -108,7 +181,7 @@
 					
 	    		var innerdiv = document.createElement('div');
 	    		var innerspan = document.createElement('span');
-	    		innerspan.innerHTML = '7';
+	    		innerspan.innerHTML = billardballs[i].number;
 				innerdiv.appendChild(innerspan);
 				ball.appendChild(innerdiv);
 				document.getElementById('table').appendChild(ball);
@@ -116,13 +189,13 @@
 				ballsArray.push(ball);
 			}
 
-			if (ballsArray.length == maxBalls){
+			if (ballsArray.length == billardballs.length){
 				tick();
 			}
 		}
 
 		function moveBall() {		
-			for (var i=0;i<maxBalls;i++) { 
+			for (var i=0;i<billardballs.length;i++) { 
 				// BOUNDRIES Left
 				if (ballsArray[i].left<0) {
 					ballsArray[i].left = 0;ballsArray[i].xspeed *= -1;
@@ -178,8 +251,8 @@
 		function tick() {
 		    moveBall();
 		    
-		    for (x=0; x<=maxBalls; x++) {
-		        for (y=x+1; y<maxBalls; y++) {
+		    for (x=0; x<=billardballs.length; x++) {
+		        for (y=x+1; y<billardballs.length; y++) {
 		        	distance_x = Math.abs(ballsArray[x].left-ballsArray[y].left);
 		        	distance_y = Math.abs(ballsArray[x].top-ballsArray[y].top);
 		        	distance = Math.sqrt(distance_x*distance_x+distance_y*distance_y);
