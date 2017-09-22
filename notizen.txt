@@ -11,3 +11,5 @@ Die Kugeln mit den Nummern 1 bis 8 bezeichnet man auch als die Vollen und die Ku
 
 bouncingballs description
 http://www.emanueleferonato.com/2007/08/19/managing-ball-vs-ball-collision-with-flash/
+
+slow down balls -> google for friction
