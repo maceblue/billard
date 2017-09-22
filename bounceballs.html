@@ -92,6 +92,9 @@
 		var tableheight = 400;
 		var tablewidth = 800;
 
+		var delta = 1 / 60;
+		var friction = 0.97;
+
 		 window.requestAnimFrame = (function() {
 		      return  window.requestAnimationFrame       || 
 		              window.webkitRequestAnimationFrame || 
@@ -223,8 +226,8 @@
 				ballsArray[i].top += ballsArray[i].yspeed;
 
 				// slowing down 
-				ballsArray[i].xspeed -= ballsArray[i].xspeed*0.01;
-				ballsArray[i].yspeed -= ballsArray[i].yspeed*0.01;
+				ballsArray[i].xspeed -= ballsArray[i].xspeed*delta;
+				ballsArray[i].yspeed -= ballsArray[i].yspeed*delta;
 				
 				//APPLY THE NEW POSITION
 				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
