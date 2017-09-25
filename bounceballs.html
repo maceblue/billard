@@ -92,6 +92,7 @@
 		var tableheight = 400;
 		var tablewidth = 800;
 
+		var collision_friction = 0.98;
 		var delta = 1 / 60;
 		var friction = 0.97;
 
@@ -203,21 +204,25 @@
 				if (ballsArray[i].left<0) {
 					ballsArray[i].left = 0;
 					ballsArray[i].xspeed *= -1;
+					ballsArray[i].xspeed *= collision_friction;
 				}
 				// BOUNDRIES Right		
 				if (ballsArray[i].left>tablewidth-30) {
 					ballsArray[i].left = tablewidth-30;
 					ballsArray[i].xspeed *= -1;
+					ballsArray[i].xspeed *= collision_friction;
 				}	
 				// BOUNDRIES Top
 				if (ballsArray[i].top<0) {
 					ballsArray[i].top = 0;
 					ballsArray[i].yspeed *= -1;
+					ballsArray[i].yspeed *= collision_friction;
 				}		
 				// BOUNDRIES Bottom
 				if (ballsArray[i].top>tableheight-30) {
 					ballsArray[i].top = tableheight-30;
 					ballsArray[i].yspeed *= -1;
+					ballsArray[i].yspeed *= collision_friction;
 				}	
 
 				
@@ -275,6 +280,12 @@
 		    ball.yspeed = Math.sin(collisionision_angle)*final_xspeed_1+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_1;
 		    ball2.xspeed = Math.cos(collisionision_angle)*final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2)*final_yspeed_2;
 		    ball2.yspeed = Math.sin(collisionision_angle)*final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
+
+		    
+		    ball.xspeed *= collision_friction;
+		    ball.yspeed *= collision_friction;
+		    ball2.xspeed *= collision_friction;
+		    ball2.yspeed *= collision_friction;
 
 		    // if ((ball.top <= ball2.top+(ballsize/2) && ball.left <= ball2.left+(ballsize/2)) 
 		    // 	|| (ball.top >= ball2.top-(ballsize/2) && ball.left >= ball2.left+(ballsize/2))
