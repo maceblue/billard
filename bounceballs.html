@@ -226,8 +226,26 @@
 				ballsArray[i].top += ballsArray[i].yspeed;
 
 				// slowing down 
-				ballsArray[i].xspeed -= ballsArray[i].xspeed*delta;
-				ballsArray[i].yspeed -= ballsArray[i].yspeed*delta;
+				var totalspeed = Math.abs(ballsArray[i].xspeed) + Math.abs(ballsArray[i].yspeed);
+				console.log(totalspeed);
+				// totalspeed is mainly between 0.4 and 4
+				// friction has to be between 0.95 (slow balls) and 0.99 (fast balls)
+				if (totalspeed < 1) {
+					friction = 0.97;
+				} else if (totalspeed >1 && totalspeed <2){
+					friction = 0.98;
+				}else if (totalspeed >2 && totalspeed <3){
+					friction = 0.985;
+				}else if (totalspeed >3 && totalspeed <4){
+					friction = 0.99;
+				}else if (totalspeed >4 && totalspeed <50){
+					friction = 0.995;
+				}
+				var t = totalspeed / 100;
+				var t_friction = 0.93 + t;
+// console.log(t_friction);
+				ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
+				ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
 				
 				//APPLY THE NEW POSITION
 				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
@@ -294,20 +312,22 @@
 		                ballsArray[x].collision = 0;
 		                ballsArray[y].collision = 0;
 		            }
+
+		            var totalspeed = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[x].yspeed);
 		        	
-		        	//window.console.log(distance)
+		        	if (totalspeed>0.1) {
+			        	anyballmoving = true;
+			        }
 		        }
-		        // if (ballsArray[x].yspeed>0 && ballsArray[x].xspeed>0) {
-		        // 	anyballmoving = true;
-		        // }
+		        
 		    }
 
 		    // play untill anyball is moving
-		    // if (anyballmoving) {
+		    if (anyballmoving) {
 		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
-		    // } else {
-		    // 	console.log('end');
-		    // }
+		    } else {
+		    	console.log('end');
+		    }
 		}
 
 	</script>
