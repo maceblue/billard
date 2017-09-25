@@ -179,8 +179,8 @@
 	            ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
 				ball.collision = 0;
 	    		ball.mass = 1;
-	    		ball.xspeed = Math.round(Math.random()*8-4);
-	    		ball.yspeed = Math.round(Math.random()*8-4);
+	    		ball.xspeed = Math.round(Math.random()*8);
+	    		ball.yspeed = Math.round(Math.random()*8);
 					
 	    		var innerdiv = document.createElement('div');
 	    		var innerspan = document.createElement('span');
@@ -231,15 +231,15 @@
 				// totalspeed is mainly between 0.4 and 4
 				// friction has to be between 0.95 (slow balls) and 0.99 (fast balls)
 				if (totalspeed < 1) {
-					friction = 0.97;
-				} else if (totalspeed >1 && totalspeed <2){
-					friction = 0.98;
-				}else if (totalspeed >2 && totalspeed <3){
 					friction = 0.985;
-				}else if (totalspeed >3 && totalspeed <4){
+				} else if (totalspeed >1 && totalspeed <2){
 					friction = 0.99;
+				}else if (totalspeed >2 && totalspeed <3){
+					friction = 0.991;
+				}else if (totalspeed >3 && totalspeed <4){
+					friction = 0.992;
 				}else if (totalspeed >4 && totalspeed <50){
-					friction = 0.995;
+					friction = 0.993;
 				}
 				var t = totalspeed / 100;
 				var t_friction = 0.93 + t;
