@@ -74,7 +74,7 @@
 			background: radial-gradient(circle at 20px 20px, #0f4, #001);
 		}
 		.ball.brown {
-			background: radial-gradient(circle at 20px 20px, #750, #001);
+			background: radial-gradient(circle at 20px 20px, #a30, #001);
 		}
 		.ball.black {
 			background: radial-gradient(circle at 20px 20px, #000, #001);
@@ -124,48 +124,88 @@
 			ball_yellow_full.color = 'yellow';
 			ball_yellow_full.number = '1';
 			ball_yellow_full.full = true;
+			ball_yellow_full.top = 175;
+			ball_yellow_full.left = 300;
 			billardballs.push(ball_yellow_full);
+
+			var ball_yellow_half = new Object();
+			ball_yellow_half.color = 'yellow';
+			ball_yellow_half.number = '9';
+			ball_yellow_half.full = true;
+			ball_yellow_half.top = 160;
+			ball_yellow_half.left = 273;
+			billardballs.push(ball_yellow_half);
 
 			var ball_blue_full = new Object();
 			ball_blue_full.color = 'blue';
 			ball_blue_full.number = '2';
 			ball_blue_full.full = true;
+			ball_blue_full.top = 190;
+			ball_blue_full.left = 273;
 			billardballs.push(ball_blue_full);
+
+			var ball_blue_half = new Object();
+			ball_blue_half.color = 'blue';
+			ball_blue_half.number = '10';
+			ball_blue_half.full = true;
+			ball_blue_half.top = 145;
+			ball_blue_half.left = 246;
+			billardballs.push(ball_blue_half);
 
 			var ball_red_full = new Object();
 			ball_red_full.color = 'red';
 			ball_red_full.number = '3';
 			ball_red_full.full = true;
+			ball_red_full.top = 205;
+			ball_red_full.left = 246;
 			billardballs.push(ball_red_full);
 
 			var ball_pink_full = new Object();
 			ball_pink_full.color = 'pink';
 			ball_pink_full.number = '4';
 			ball_pink_full.full = true;
+			ball_pink_full.top = 220;
+			ball_pink_full.left = 219;
 			billardballs.push(ball_pink_full);
 
 			var ball_orange_full = new Object();
 			ball_orange_full.color = 'orange';
 			ball_orange_full.number = '5';
 			ball_orange_full.full = true;
+			ball_orange_full.top = 100;
+			ball_orange_full.left = 100;
 			billardballs.push(ball_orange_full);
 
 			var ball_green_full = new Object();
 			ball_green_full.color = 'green';
 			ball_green_full.number = '6';
 			ball_green_full.full = true;
+			ball_green_full.top = 100;
+			ball_green_full.left = 100;
 			billardballs.push(ball_green_full);
+
+			var ball_green_half = new Object();
+			ball_green_half.color = 'green';
+			ball_green_half.number = '14';
+			ball_green_half.full = true;
+			ball_green_half.top = 190;
+			ball_green_half.left = 219;
+			billardballs.push(ball_green_half);
 
 			var ball_brown_full = new Object();
 			ball_brown_full.color = 'brown';
 			ball_brown_full.number = '7';
 			ball_brown_full.full = true;
+			ball_brown_full.top = 160;
+			ball_brown_full.left = 219;
 			billardballs.push(ball_brown_full);
 
 			var ball_black_full = new Object();
 			ball_black_full.color = 'black';
 			ball_black_full.number = '8';
 			ball_black_full.full = true;
+			ball_black_full.top = 175;
+			ball_black_full.left = 246;
 			billardballs.push(ball_black_full);
 
 			var minDist = window.innerHeight / billardballs.length;
@@ -176,12 +216,14 @@
 				var ball = document.createElement("div");
 				ball.className = "ball " + billardballs[i].color;
 				
-				ball.left = Math.round(Math.random()*window.innerWidth-30);
-	            ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
+				// ball.left = Math.round(Math.random()*window.innerWidth-30);
+	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
+	   			ball.left = billardballs[i].left;
+	            ball.top = billardballs[i].top;
 				ball.collision = 0;
 	    		ball.mass = 1;
-	    		ball.xspeed = Math.round(Math.random()*8);
-	    		ball.yspeed = Math.round(Math.random()*8);
+	    		ball.xspeed = 0; //Math.round(Math.random()*8);
+	    		ball.yspeed = 0; //Math.round(Math.random()*8);
 					
 	    		var innerdiv = document.createElement('div');
 	    		var innerspan = document.createElement('span');
