@@ -32,30 +32,30 @@
 			text-align: center;
 			background:#004E99;
 			border-radius:50%;
-			box-shadow: -10px -10px 30px -10px rgba(0,0,0,0.9);
+			box-shadow: -5px -5px 1px 1px rgba(0,0,0,0.1);
 		}
 		.ball.half:before {
 			content: "";
 			position: absolute;
-			background: white;
+			background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 20%,rgba(255,255,255,1) 20%,rgba(255,255,255,0) 20%);
 			border-radius:50%;
-			bottom: 2.5%;
-			left: 12%;
+			bottom: 0%;
+			left: 0%;
 			opacity: 0.9;
-			height: 20%;
-			width: 70%;
+			height: 30px;
+			width: 30px;
 			z-index: -1;
 		}
 		.ball.half:after {
 			content: "";
 			position: absolute;
-			background: white;
+			background: linear-gradient(to bottom, rgba(30,87,153,0) 0%,rgba(244,247,250,0) 80%,rgba(247,249,251,1) 80%,rgba(255,255,255,1) 80%,rgba(255,255,255,1) 100%);
 			border-radius:50%;
-			top: 3.9%;
-			left: 15%;
+			top: 0%;
+			left: 0%;
 			opacity: 0.9;
-			height: 20%;
-			width: 70%;
+			height: 30px;
+			width: 30px;
 			z-index: -1;
 		}
 
@@ -67,7 +67,7 @@
 
 		.ball>div>span{
 			position:absolute;
-			left:9px;
+			left:8px;
 			top:8px;
 			width:15px;
 			height:15px;
@@ -104,7 +104,7 @@
 			background: radial-gradient(circle at 20px 20px, #000, #001);
 		}
 		.ball.white {
-			background: radial-gradient(circle at 20px 20px, #fff, #001);
+			background: radial-gradient(circle at 20px 20px, #fff, #999);
 		}
 		.ball.white>div>span{
 			background:none;
@@ -149,7 +149,6 @@
 
 		function initBalls() {
 		    
-
 			var ball_yellow_full = new Object();
 			ball_yellow_full.color = 'yellow';
 			ball_yellow_full.number = '1';
@@ -297,8 +296,13 @@
 	            ball.top = billardballs[i].top;
 				ball.collision = 0;
 	    		ball.mass = 1;
-	    		ball.xspeed = 0; //Math.round(Math.random()*8);
-	    		ball.yspeed = 0; //Math.round(Math.random()*8);
+	    		ball.xspeed = 0;//Math.round(Math.random()*8);
+	    		ball.yspeed = 0;//Math.round(Math.random()*8);
+
+	    		if (billardballs[i].color=='white') {
+	    			ball.xspeed = -10;
+	    			ball.yspeed = 0;
+	    		}
 					
 	    		var innerdiv = document.createElement('div');
 	    		var innerspan = document.createElement('span');
@@ -311,6 +315,7 @@
 			}
 
 			if (ballsArray.length == billardballs.length){
+				// push_white_ball(-15, 0);
 				tick();
 			}
 		}
@@ -371,7 +376,7 @@
 				
 				//APPLY THE NEW POSITION
 				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
-				//https://www.youporn.com/watch/8740576/fakeagentuk-tight-young-half-asian-refuses-anal-but-gets-big-orgasm/
+				//http://bit.ly/2hDPpNP
 				ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
 	            ballsArray[i].style.MozTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
 			}
@@ -413,6 +418,16 @@
 		    // }
 		}
 
+		function push_white_ball(xspeed, yspeed) {
+			for (var i=0; i<billardballs.length; i++) {
+				if (billardballs[i].color=='white') {
+console.log('adding speed to white ball');					
+					ballsArray[i].xspeed = xspeed;
+					ballsArray[i].yspeed = yspeed;
+				}
+			}
+		}
+
 
 		function tick() {
 		    moveBall();
@@ -450,7 +465,7 @@
 		        }
 		        
 		    }
-
+// anyballmoving = true;
 		    // play untill anyball is moving
 		    if (anyballmoving) {
 		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
