@@ -34,6 +34,30 @@
 			border-radius:50%;
 			box-shadow: -10px -10px 30px -10px rgba(0,0,0,0.9);
 		}
+		.ball.half:before {
+			content: "";
+			position: absolute;
+			background: white;
+			border-radius:50%;
+			bottom: 2.5%;
+			left: 12%;
+			opacity: 0.9;
+			height: 20%;
+			width: 70%;
+			z-index: -1;
+		}
+		.ball.half:after {
+			content: "";
+			position: absolute;
+			background: white;
+			border-radius:50%;
+			top: 3.9%;
+			left: 15%;
+			opacity: 0.9;
+			height: 20%;
+			width: 70%;
+			z-index: -1;
+		}
 
 		.ball>div{
 			position:absolute;
@@ -137,7 +161,7 @@
 			var ball_yellow_half = new Object();
 			ball_yellow_half.color = 'yellow';
 			ball_yellow_half.number = '9';
-			ball_yellow_half.full = true;
+			ball_yellow_half.full = false;
 			ball_yellow_half.top = 160;
 			ball_yellow_half.left = 173;
 			billardballs.push(ball_yellow_half);
@@ -153,7 +177,7 @@
 			var ball_blue_half = new Object();
 			ball_blue_half.color = 'blue';
 			ball_blue_half.number = '10';
-			ball_blue_half.full = true;
+			ball_blue_half.full = false;
 			ball_blue_half.top = 145;
 			ball_blue_half.left = 146;
 			billardballs.push(ball_blue_half);
@@ -217,7 +241,7 @@
 			var ball_green_half = new Object();
 			ball_green_half.color = 'green';
 			ball_green_half.number = '14';
-			ball_green_half.full = true;
+			ball_green_half.full = false;
 			ball_green_half.top = 190;
 			ball_green_half.left = 119;
 			billardballs.push(ball_green_half);
@@ -260,7 +284,12 @@
 			//ADD billardballs
 			for (var i=0;i<billardballs.length;i++) { 
 				var ball = document.createElement("div");
-				ball.className = "ball " + billardballs[i].color;
+				if (billardballs[i].full==false) {
+					ball.className = "ball half " + billardballs[i].color;	
+				} else {
+					ball.className = "ball " + billardballs[i].color;
+				}
+				
 				
 				// ball.left = Math.round(Math.random()*window.innerWidth-30);
 	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
@@ -342,6 +371,7 @@
 				
 				//APPLY THE NEW POSITION
 				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
+				//https://www.youporn.com/watch/8740576/fakeagentuk-tight-young-half-asian-refuses-anal-but-gets-big-orgasm/
 				ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
 	            ballsArray[i].style.MozTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
 			}
