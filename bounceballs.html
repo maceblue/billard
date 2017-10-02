@@ -15,9 +15,11 @@
 			height: 400px;
 			transform : translateZ(0); 
 			background-color: darkgreen;
+			background-image: url("billiard-table.png");
+			background-size: 800px 400px;
 			overflow: hidden;
-			border: 25px solid #552222;
-			border-radius: 5%;
+			/*border: 25px solid #552222;
+			border-radius: 5%;*/
 		    margin:0px;
 		    padding:0px;
 		}
@@ -124,7 +126,7 @@
 
 		var collision_friction = 0.98;
 		var delta = 1 / 60;
-		var friction = 0.97;
+		var friction = 1;
 
 		 window.requestAnimFrame = (function() {
 		      return  window.requestAnimationFrame       || 
@@ -288,21 +290,6 @@
 				} else {
 					ball.className = "ball " + billardballs[i].color;
 				}
-				
-				
-				// ball.left = Math.round(Math.random()*window.innerWidth-30);
-	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
-	   			ball.left = billardballs[i].left;
-	            ball.top = billardballs[i].top;
-				ball.collision = 0;
-	    		ball.mass = 1;
-	    		ball.xspeed = 0;//Math.round(Math.random()*8);
-	    		ball.yspeed = 0;//Math.round(Math.random()*8);
-
-	    		if (billardballs[i].color=='white') {
-	    			ball.xspeed = -10;
-	    			ball.yspeed = 0;
-	    		}
 					
 	    		var innerdiv = document.createElement('div');
 	    		var innerspan = document.createElement('span');
@@ -310,18 +297,32 @@
 				innerdiv.appendChild(innerspan);
 				ball.appendChild(innerdiv);
 				document.getElementById('table').appendChild(ball);
+
+				// ball.left = Math.round(Math.random()*window.innerWidth-30);
+	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
+	   			ball.left = billardballs[i].left;
+	            ball.top = billardballs[i].top;
+				ball.collision = 0;
+	    		ball.mass = 1;
+	    		ball.xspeed = 0; //Math.round(Math.random()*8);
+	    		ball.yspeed = 0; //Math.round(Math.random()*8);
+
+				ball.style.WebkitTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
+	            ball.style.MozTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
 				
 				ballsArray.push(ball);
 			}
 
-			if (ballsArray.length == billardballs.length){
-				// push_white_ball(-15, 0);
-				tick();
-			}
+			// start with withe ball
+			push_white_ball(-15, 0);
+
+			// loop
+			tick();
+			
 		}
 
 		function moveBall() {		
-			for (var i=0;i<billardballs.length;i++) { 
+			for (var i=0;i<ballsArray.length;i++) { 
 				// BOUNDRIES Left
 				if (ballsArray[i].left<0) {
 					ballsArray[i].left = 0;
@@ -354,7 +355,7 @@
 
 				// slowing down 
 				var totalspeed = Math.abs(ballsArray[i].xspeed) + Math.abs(ballsArray[i].yspeed);
-				console.log(totalspeed);
+// console.log(totalspeed);
 				// totalspeed is mainly between 0.4 and 4
 				// friction has to be between 0.95 (slow balls) and 0.99 (fast balls)
 				if (totalspeed < 1) {
@@ -368,8 +369,8 @@
 				}else if (totalspeed >4 && totalspeed <50){
 					friction = 0.993;
 				}
-				var t = totalspeed / 100;
-				var t_friction = 0.93 + t;
+				// var t = totalspeed / 100;
+				// var t_friction = 0.93 + t;
 // console.log(t_friction);
 				ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
 				ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
@@ -381,6 +382,63 @@
 	            ballsArray[i].style.MozTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
 			}
 	   		//ball.style.WebkitTransform = "translate("+ball.dx+"px,"+ball.dy+"px)";
+		}
+
+		
+		function tick() {
+
+		    moveBall();
+
+		    var anyballmoving = false;
+		    
+		    for (var x=0; x<=ballsArray.length; x++) {
+		        for (var y=x+1; y<ballsArray.length; y++) {
+		        	var distance_x = Math.abs(ballsArray[x].left-ballsArray[y].left);
+		        	var distance_y = Math.abs(ballsArray[x].top-ballsArray[y].top);
+		        	var distance = Math.sqrt(distance_x*distance_x+distance_y*distance_y);
+		        	
+		        	if (distance < 20) { // sticky balls
+console.log('sticky!');
+		        		ballsArray[x].top += 30;
+		        		ballsArray[x].collision = 0;
+		                ballsArray[y].collision = 0;
+		        	} else if (distance<=30 
+		        		&& (ballsArray[x].collision == 0 || ballsArray[y].collision == 0)
+		        	) {
+		        		ballsArray[x].collision = 1;
+		                ballsArray[y].collision = 1;
+console.log('bounce');
+		                manage_bounce(ballsArray[x], ballsArray[y]);
+		        	} else if (distance>30) {
+		                ballsArray[x].collision = 0;
+		                ballsArray[y].collision = 0;
+		            }
+
+		            var totalspeed = Math.abs(ballsArray[y].xspeed) + Math.abs(ballsArray[y].yspeed);
+// console.log(totalspeed);		        	
+		        	if (totalspeed>0.1) {
+			        	anyballmoving = true;
+			        }
+		        }
+		    }
+console.log(anyballmoving);
+// anyballmoving = true;
+		    // play while anyball is moving
+		    if (anyballmoving) {
+console.log('tick');
+		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
+		    } else {
+console.log('end');
+		    }
+		}
+
+		function push_white_ball(xspeed, yspeed) {
+			for (var i=0; i<billardballs.length; i++) {
+				if (billardballs[i].color=='white') {		
+					ballsArray[i].xspeed = xspeed;
+					ballsArray[i].yspeed = yspeed;
+				}
+			}
 		}
 
 		function manage_bounce(ball, ball2) {
@@ -416,62 +474,6 @@
 		    // 	ball.top += 1;
 		    // 	ball.left += 1;
 		    // }
-		}
-
-		function push_white_ball(xspeed, yspeed) {
-			for (var i=0; i<billardballs.length; i++) {
-				if (billardballs[i].color=='white') {
-console.log('adding speed to white ball');					
-					ballsArray[i].xspeed = xspeed;
-					ballsArray[i].yspeed = yspeed;
-				}
-			}
-		}
-
-
-		function tick() {
-		    moveBall();
-
-		    var anyballmoving = false;
-		    
-		    for (x=0; x<=billardballs.length; x++) {
-		        for (y=x+1; y<billardballs.length; y++) {
-		        	distance_x = Math.abs(ballsArray[x].left-ballsArray[y].left);
-		        	distance_y = Math.abs(ballsArray[x].top-ballsArray[y].top);
-		        	distance = Math.sqrt(distance_x*distance_x+distance_y*distance_y);
-		        	
-		        	if (distance < 20) { // sticky balls
-		        		console.log('sticky!');
-		        		ballsArray[x].top += 30;
-		        		ballsArray[x].collision = 0;
-		                ballsArray[y].collision = 0;
-		        	} else if (distance<=30 
-		        		&& (ballsArray[x].collision == 0 || ballsArray[y].collision == 0)
-		        	) {
-		        		ballsArray[x].collision = 1;
-		                ballsArray[y].collision = 1;
-		                //console.log(distance);
-		                manage_bounce(ballsArray[x], ballsArray[y]);
-		        	} else if (distance>30) {
-		                ballsArray[x].collision = 0;
-		                ballsArray[y].collision = 0;
-		            }
-
-		            var totalspeed = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[x].yspeed);
-		        	
-		        	if (totalspeed>0.1) {
-			        	anyballmoving = true;
-			        }
-		        }
-		        
-		    }
-// anyballmoving = true;
-		    // play untill anyball is moving
-		    if (anyballmoving) {
-		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
-		    } else {
-		    	console.log('end');
-		    }
 		}
 
 	</script>
