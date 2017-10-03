@@ -162,24 +162,25 @@
 			table_inner.id = 'table_inner';
 			table.appendChild(table_inner);
 
-			table.addEventListener("mousedown", function(){
+			table_inner.addEventListener("mousedown", function(){
 				mousepower = 0;
 			     mousedowntimer=setInterval(function(){
 			          console.log('mousedowntimer: '+ mousepower++);
 			     }, 100);
 			});
-			table.addEventListener("mouseup", function(e){
+			table_inner.addEventListener("mouseup", function(e){
 			    if (mousedowntimer) clearInterval(mousedowntimer)
-			    mouseX = parseInt(e.clientX);
-	            mouseY = parseInt(e.clientY);
-
+			    mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
+	            mouseY = parseInt(e.clientY)-39-ballsize/2;
+// console.log(mouseX, mouseY, white_ball_elem.left, white_ball_elem.top);
 	            var dx = mouseX - white_ball_elem.left;
 	            var dy = mouseY - white_ball_elem.top;
-// console.log(dx, dy);
+console.log(dx, dy);
 	            radianAngle = Math.atan2(dy, dx);
+	            // var radianAngle = radianAngle*(Math.PI/180);
 	            xspeed = Math.cos(radianAngle) * mousepower;
 	            yspeed = Math.sin(radianAngle) * mousepower;
-console.log(xspeed, yspeed);
+// console.log(xspeed, yspeed);
 				push_white_ball(xspeed, yspeed);
 				tick();
 			});
