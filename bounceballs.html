@@ -135,6 +135,7 @@
 		var friction = 1;
 
 		var white_ball_dropped = false;
+		var white_ball_elem = new Object();
 
 		 window.requestAnimFrame = (function() {
 		      return  window.requestAnimationFrame       || 
@@ -310,16 +311,21 @@
 				ball.appendChild(innerdiv);
 				document.getElementById('table_inner').appendChild(ball);
 
-				// ball.left = Math.round(Math.random()*window.innerWidth-30);
-	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
-	   			ball.left = billardballs[i].left;
-	            ball.top = billardballs[i].top;
 				ball.collision = 0;
 	    		ball.mass = 1;
-	    		ball.xspeed = 0; //Math.round(Math.random()*8);
-	    		ball.yspeed = 0; //Math.round(Math.random()*8);
 	    		ball.color = billardballs[i].color;
 
+				// random position and speed
+				// ball.left = Math.round(Math.random()*window.innerWidth-30);
+	   			// ball.top = Math.random() * (i*minDist+50 - i*minDist) + i*minDist;
+	   			// ball.xspeed = Math.round(Math.random()*8);
+	    		// ball.yspeed = Math.round(Math.random()*8);
+
+	    		// defined position and speed
+	   			ball.xspeed = 0;
+	    		ball.yspeed = 0;
+	   			ball.left = billardballs[i].left;
+	            ball.top = billardballs[i].top;
 				ball.style.WebkitTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
 	            ball.style.MozTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
 				
@@ -336,9 +342,6 @@
 
 		function moveBall() {		
 			for (var i=0;i<ballsArray.length;i++) { 
-				if (ballsArray[i].color=='white' && white_ball_dropped==true) {
-					continue;
-				}
 				if (
 					(	// HOLE top left
 						ballsArray[i].top<=ballsize/4
@@ -353,7 +356,7 @@
 					||
 					(	// HOLE top right
 						ballsArray[i].top<=ballsize/4
-						&& ballsArray[i].left>=tablewidth-(ballsize/4)*3
+						&& ballsArray[i].left>=tablewidth-ballsize*1.25
 					)
 					||
 					(	// HOLE bottom left
@@ -368,17 +371,19 @@
 					)
 					||
 					(	// HOLE bottom right
-						ballsArray[i].top>=tableheight-ballsize/4
-						&& ballsArray[i].left>=tablewidth-(ballsize/4)*3
+						ballsArray[i].top>=tableheight-ballsize*1.25
+						&& ballsArray[i].left>=tablewidth-ballsize*1.25
 					)
 				) {
-					ballsArray[i].parentNode.removeChild(ballsArray[i]);
+					
 					if (ballsArray[i].color=='white') {
 						white_ball_dropped = true;
-console.log('white ball dropped');
-					} else {
-						ballsArray.splice(i, 1);
-					}
+						white_ball_elem = ballsArray[i];
+					} 
+
+					// remove ball
+					ballsArray[i].parentNode.removeChild(ballsArray[i]);
+					ballsArray.splice(i, 1);
 					
 					continue;
 				}
@@ -433,16 +438,14 @@ console.log('white ball dropped');
 				// var t = totalspeed / 100;
 				// var t_friction = 0.93 + t;
 // console.log(t_friction);
-				ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
-				ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
+
+				// ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
+				// ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
 				
 				//APPLY THE NEW POSITION
-				//ballsArray[i].style.WebkitTransform = "translate("+ballsArray[i].left+"px,"+ballsArray[i].top+"px)";//2D Transform
-				//http://bit.ly/2hDPpNP
-				ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";//3D Transform fo better Performance?? -> "testing"
+				ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
 	            ballsArray[i].style.MozTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
 			}
-	   		//ball.style.WebkitTransform = "translate("+ball.dx+"px,"+ball.dy+"px)";
 		}
 
 		
@@ -459,23 +462,13 @@ console.log('white ball dropped');
 		        	var distance = Math.sqrt(distance_x*distance_x+distance_y*distance_y);
 		        	
 		        	if (distance < 20) { // sticky balls
-console.log('sticky!');
-		        		// ballsArray[x].top += 30;
-		        		var absV = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[y].xspeed); 
-					    overlap = (30) - Math.abs(ballsArray[x].left - ballsArray[y].left); 
-					    ballsArray[x].left += ballsArray[x].xspeed / absV * overlap; 
-					    ballsArray[y].left += ballsArray[y].xspeed / absV * overlap; 
+// console.log('sticky!');
 		        		ballsArray[x].collision = 0;
 		                ballsArray[y].collision = 0;
 		        	} else if (distance<=30 
 		        		// && distance > 29
 		        		&& (ballsArray[x].collision == 0 || ballsArray[y].collision == 0)
 		        	) {
-		        		// A simple solution that I have implemented before is when you detect a collision between objects do some simple math to pull the apart from one another before doing the collision calculation. So if two spheres collide, separate them by the sum of their radii and by the angle they collided then do your calculation. seen https://gamedev.stackexchange.com/questions/31876/2d-collision-in-canvas-balls-overlapping-when-velocity-is-high
-		       //  		var absV = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[y].xspeed); 
-					    // overlap = (30) - Math.abs(ballsArray[x].left - ballsArray[y].left); 
-					    // ballsArray[x].left += ballsArray[x].xspeed / absV * overlap; 
-					    // ballsArray[y].left += ballsArray[y].xspeed / absV * overlap; 
 		        		ballsArray[x].collision = 1;
 		                ballsArray[y].collision = 1;
 // console.log('bounce');
@@ -492,15 +485,26 @@ console.log('sticky!');
 			        }
 		        }
 		    }
-// console.log(anyballmoving);
-// anyballmoving = true;
+
 		    // play while anyball is moving
 		    if (anyballmoving) {
 // console.log('tick');
 		    	requestAnimFrame( tick );//RUN THE NEXT TICK	
 		    } else {
 console.log('end');
+				if (white_ball_dropped) {
+					add_white_ball();	
+				}
 		    }
+		}
+
+		function add_white_ball() {
+			white_ball_elem.top = tableheight/2-ballsize/2;
+			white_ball_elem.left = (tablewidth/4)*3-ballsize/2;
+			ballsArray.push(white_ball_elem);
+			document.getElementById('table_inner').appendChild(white_ball_elem);
+			white_ball_elem.style.WebkitTransform = "translate3D("+white_ball_elem.left+"px,"+white_ball_elem.top+"px,0px)";
+	        white_ball_elem.style.MozTransform = "translate3D("+white_ball_elem.left+"px,"+white_ball_elem.top+"px,0px)";
 		}
 
 		function push_white_ball(xspeed, yspeed) {
@@ -515,6 +519,13 @@ console.log('end');
 		function manage_bounce(ball, ball2) {
 		    dx = ball.left-ball2.left;
 		    dy = ball.top-ball2.top;
+
+		    var distance = Math.sqrt(dx*dx + dy*dy);
+			if (distance<29) { //sticky!
+console.log('sticky!');
+				ball.left += dx;
+				ball.top += dy;
+			}
 
 		    collisionision_angle = Math.atan2(dy, dx);
 		    magnitude_1 = Math.sqrt(ball.xspeed*ball.xspeed+ball.yspeed*ball.yspeed);
@@ -533,6 +544,8 @@ console.log('end');
 		    ball.yspeed = Math.sin(collisionision_angle)*final_xspeed_1+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_1;
 		    ball2.xspeed = Math.cos(collisionision_angle)*final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2)*final_yspeed_2;
 		    ball2.yspeed = Math.sin(collisionision_angle)*final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
+
+		    
 
 		    // var absV = Math.abs(ball.xspeed) + Math.abs(ball2.xspeed); 
 		    // overlap = (30) - Math.abs(ball.left - ball2.left); 
