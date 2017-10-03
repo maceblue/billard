@@ -133,6 +133,7 @@
 		var collision_friction = 0.98;
 		var delta = 1 / 60;
 		var friction = 1;
+		var friction_active = true;
 
 		var white_ball_dropped = false;
 		var white_ball_elem = new Object();
@@ -167,9 +168,23 @@
 			          console.log('mousedowntimer: '+ mousepower++);
 			     }, 100);
 			});
-			table.addEventListener("mouseup", function(){
+			table.addEventListener("mouseup", function(e){
 			    if (mousedowntimer) clearInterval(mousedowntimer)
+			    mouseX = parseInt(e.clientX);
+	            mouseY = parseInt(e.clientY);
+
+	            var dx = mouseX - white_ball_elem.left;
+	            var dy = mouseY - white_ball_elem.top;
+// console.log(dx, dy);
+	            radianAngle = Math.atan2(dy, dx);
+	            xspeed = Math.cos(radianAngle) * mousepower;
+	            yspeed = Math.sin(radianAngle) * mousepower;
+console.log(xspeed, yspeed);
+				push_white_ball(xspeed, yspeed);
+				tick();
 			});
+			//window.onmousemove = handleMouseMove;
+
 			
 			//INIT BALLS & PHYSICS
 		    initBalls();
@@ -346,7 +361,7 @@
 			}
 
 			// start with withe ball
-			push_white_ball(-27, 1);
+			// push_white_ball(-27, 1);
 
 			// loop
 			tick();
@@ -355,6 +370,13 @@
 
 		function moveBall() {		
 			for (var i=0;i<ballsArray.length;i++) { 
+
+				// save white balls element for later
+				if (ballsArray[i].color=='white') {
+					white_ball_elem = ballsArray[i];
+				} 
+
+				// check boundries and holes
 				if (
 					(	// HOLE top left
 						ballsArray[i].top<=ballsize/4
@@ -391,7 +413,6 @@
 					
 					if (ballsArray[i].color=='white') {
 						white_ball_dropped = true;
-						white_ball_elem = ballsArray[i];
 					} 
 
 					// remove ball
@@ -451,9 +472,10 @@
 				// var t = totalspeed / 100;
 				// var t_friction = 0.93 + t;
 // console.log(t_friction);
-
-				// ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
-				// ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
+				if (friction_active) {
+					ballsArray[i].xspeed = ballsArray[i].xspeed*friction;
+					ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
+				}
 				
 				//APPLY THE NEW POSITION
 				ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
@@ -601,6 +623,18 @@ console.log('sticky!');
 		    // 	ball.left += 1;
 		    // }
 		}
+
+		function handleMouseMove(e) {
+            e.preventDefault();
+            // mouseX = parseInt(e.clientX);
+            // mouseY = parseInt(e.clientY);
+            // var dx = mouseX - white_ball_elem.left;
+            // var dy = mouseY - white_ball_elem.top;
+            // radianAngle = Math.atan2(dy, dx);
+            // xspeed = Math.cos(radianAngle) * offSet;
+            // yspeed = Math.sin(radianAngle) * offSet;
+
+        }
 
 	</script>
 
