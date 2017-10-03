@@ -137,6 +137,9 @@
 		var white_ball_dropped = false;
 		var white_ball_elem = new Object();
 
+		var mousedowntimer;
+		var mousepower = 0;
+
 		 window.requestAnimFrame = (function() {
 		      return  window.requestAnimationFrame       || 
 		              window.webkitRequestAnimationFrame || 
@@ -157,6 +160,16 @@
 			var table_inner = document.createElement('div');
 			table_inner.id = 'table_inner';
 			table.appendChild(table_inner);
+
+			table.addEventListener("mousedown", function(){
+				mousepower = 0;
+			     mousedowntimer=setInterval(function(){
+			          console.log('mousedowntimer: '+ mousepower++);
+			     }, 100);
+			});
+			table.addEventListener("mouseup", function(){
+			    if (mousedowntimer) clearInterval(mousedowntimer)
+			});
 			
 			//INIT BALLS & PHYSICS
 		    initBalls();
