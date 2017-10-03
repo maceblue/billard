@@ -14,7 +14,7 @@
 			width: 800px;
 			height: 400px;
 			transform : translateZ(0); 
-			background-color: darkgreen;
+			/*background-color: darkgreen;*/
 			background-image: url("billiard-table.png");
 			background-size: 800px 400px;
 			overflow: hidden;
@@ -22,11 +22,11 @@
 		    padding:0px;
 		}
 		#table_inner {
-			border: 2px solid none;
-			width: 712px;
-			height: 320px;
-			margin-top: 38px;
-			margin-left: 42px;
+			border:0px solid red;
+			width: 714px;
+			height: 322px;
+			margin-top: 39px;
+			margin-left: 43px;
 			background: none;
 		}
 
@@ -127,12 +127,14 @@
 		var ballsize = 30;
 		
 		var speedLimit = 14;
-		var tableheight = 320;
-		var tablewidth = 712;
+		var tableheight = 322;
+		var tablewidth = 714;
 
 		var collision_friction = 0.98;
 		var delta = 1 / 60;
 		var friction = 1;
+
+		var white_ball_dropped = false;
 
 		 window.requestAnimFrame = (function() {
 		      return  window.requestAnimationFrame       || 
@@ -316,6 +318,7 @@
 	    		ball.mass = 1;
 	    		ball.xspeed = 0; //Math.round(Math.random()*8);
 	    		ball.yspeed = 0; //Math.round(Math.random()*8);
+	    		ball.color = billardballs[i].color;
 
 				ball.style.WebkitTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
 	            ball.style.MozTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
@@ -324,7 +327,7 @@
 			}
 
 			// start with withe ball
-			push_white_ball(-25, 2);
+			push_white_ball(-27, 1);
 
 			// loop
 			tick();
@@ -333,6 +336,54 @@
 
 		function moveBall() {		
 			for (var i=0;i<ballsArray.length;i++) { 
+				if (ballsArray[i].color=='white' && white_ball_dropped==true) {
+					continue;
+				}
+				if (
+					(	// HOLE top left
+						ballsArray[i].top<=ballsize/4
+						&& ballsArray[i].left<=ballsize/4
+					)
+					||
+					(	// HOLE top middle
+						ballsArray[i].top<=0
+						&& ballsArray[i].left>tablewidth/2-ballsize
+						&& ballsArray[i].left<tablewidth/2
+					)
+					||
+					(	// HOLE top right
+						ballsArray[i].top<=ballsize/4
+						&& ballsArray[i].left>=tablewidth-(ballsize/4)*3
+					)
+					||
+					(	// HOLE bottom left
+						ballsArray[i].left<=0+ballsize/4 
+						&& ballsArray[i].top>=tableheight-ballsize
+					)
+					||
+					(	// HOLE bottom middle
+						ballsArray[i].top>=tableheight-ballsize
+						&& ballsArray[i].left>tablewidth/2-ballsize
+						&& ballsArray[i].left<tablewidth/2
+					)
+					||
+					(	// HOLE bottom right
+						ballsArray[i].top>=tableheight-ballsize/4
+						&& ballsArray[i].left>=tablewidth-(ballsize/4)*3
+					)
+				) {
+					ballsArray[i].parentNode.removeChild(ballsArray[i]);
+					if (ballsArray[i].color=='white') {
+						white_ball_dropped = true;
+console.log('white ball dropped');
+					} else {
+						ballsArray.splice(i, 1);
+					}
+					
+					continue;
+				}
+				
+				
 				// BOUNDRIES Left
 				if (ballsArray[i].left<0) {
 					ballsArray[i].left = 0;
@@ -340,8 +391,8 @@
 					ballsArray[i].xspeed *= collision_friction;
 				}
 				// BOUNDRIES Right		
-				if (ballsArray[i].left>tablewidth-30) {
-					ballsArray[i].left = tablewidth-30;
+				if (ballsArray[i].left>tablewidth-ballsize) {
+					ballsArray[i].left = tablewidth-ballsize;
 					ballsArray[i].xspeed *= -1;
 					ballsArray[i].xspeed *= collision_friction;
 				}	
@@ -352,8 +403,8 @@
 					ballsArray[i].yspeed *= collision_friction;
 				}		
 				// BOUNDRIES Bottom
-				if (ballsArray[i].top>tableheight-30) {
-					ballsArray[i].top = tableheight-30;
+				if (ballsArray[i].top>tableheight-ballsize) {
+					ballsArray[i].top = tableheight-ballsize;
 					ballsArray[i].yspeed *= -1;
 					ballsArray[i].yspeed *= collision_friction;
 				}	
@@ -410,12 +461,21 @@
 		        	if (distance < 20) { // sticky balls
 console.log('sticky!');
 		        		// ballsArray[x].top += 30;
+		        		var absV = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[y].xspeed); 
+					    overlap = (30) - Math.abs(ballsArray[x].left - ballsArray[y].left); 
+					    ballsArray[x].left += ballsArray[x].xspeed / absV * overlap; 
+					    ballsArray[y].left += ballsArray[y].xspeed / absV * overlap; 
 		        		ballsArray[x].collision = 0;
 		                ballsArray[y].collision = 0;
 		        	} else if (distance<=30 
-		        		&& distance > 20
+		        		// && distance > 29
 		        		&& (ballsArray[x].collision == 0 || ballsArray[y].collision == 0)
 		        	) {
+		        		// A simple solution that I have implemented before is when you detect a collision between objects do some simple math to pull the apart from one another before doing the collision calculation. So if two spheres collide, separate them by the sum of their radii and by the angle they collided then do your calculation. seen https://gamedev.stackexchange.com/questions/31876/2d-collision-in-canvas-balls-overlapping-when-velocity-is-high
+		       //  		var absV = Math.abs(ballsArray[x].xspeed) + Math.abs(ballsArray[y].xspeed); 
+					    // overlap = (30) - Math.abs(ballsArray[x].left - ballsArray[y].left); 
+					    // ballsArray[x].left += ballsArray[x].xspeed / absV * overlap; 
+					    // ballsArray[y].left += ballsArray[y].xspeed / absV * overlap; 
 		        		ballsArray[x].collision = 1;
 		                ballsArray[y].collision = 1;
 // console.log('bounce');
@@ -444,7 +504,7 @@ console.log('end');
 		}
 
 		function push_white_ball(xspeed, yspeed) {
-			for (var i=0; i<billardballs.length; i++) {
+			for (var i=0; i<ballsArray.length; i++) {
 				if (billardballs[i].color=='white') {		
 					ballsArray[i].xspeed = xspeed;
 					ballsArray[i].yspeed = yspeed;
@@ -474,28 +534,33 @@ console.log('end');
 		    ball2.xspeed = Math.cos(collisionision_angle)*final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2)*final_yspeed_2;
 		    ball2.yspeed = Math.sin(collisionision_angle)*final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
 
+		    // var absV = Math.abs(ball.xspeed) + Math.abs(ball2.xspeed); 
+		    // overlap = (30) - Math.abs(ball.left - ball2.left); 
+		    // ball.left += ball.xspeed / absV * overlap; 
+		    // ball2.left += ball2.xspeed / absV * overlap; 
 
+		    // test another elastic collision algorithm
 		    // var distx = ball.left-ball2.left;
-      //       var disty = ball.top-ball2.top;
-      //       var dist = Math.sqrt(distx * distx + disty * disty);
-      //       if (dist < 30) {
-      //           var xspeed1 = ball.xspeed;
-      //           var yspeed1 = ball.yspeed;
-      //           var speed1 = Math.sqrt(xspeed1 * xspeed1 + yspeed1 * yspeed1);
-      //           var speed2 = 0;
-      //           var angle1 = Math.atan(ball.yspeed / ball.xspeed);
-      //           var anglecoll1 = Math.atan(disty / distx);
-      //           var anglecoll = anglecoll1 - angle1;
-      //           var speed1new = speed1 * Math.abs(Math.sin(anglecoll));
-      //           var speed2new = speed1 * Math.abs(Math.cos(anglecoll));
-      //           if (anglecoll < 0) var angle1new = angle1 + anglecoll + Math.PI / 2;
-      //           else var angle1new = angle1 + anglecoll - Math.PI / 2;
-      //           var angle2new = angle1 + anglecoll;
-      //           ball.xspeed = speed1new * Math.cos(angle1new);
-      //           ball.yspeed = speed1new * Math.sin(angle1new);
-      //           ball2.xspeed = speed2new * Math.cos(angle2new);
-      //           ball2.yspeed = speed2new * Math.sin(angle2new);
-      //       }
+			//       var disty = ball.top-ball2.top;
+			//       var dist = Math.sqrt(distx * distx + disty * disty);
+			//       if (dist < 30) {
+			//           var xspeed1 = ball.xspeed;
+			//           var yspeed1 = ball.yspeed;
+			//           var speed1 = Math.sqrt(xspeed1 * xspeed1 + yspeed1 * yspeed1);
+			//           var speed2 = 0;
+			//           var angle1 = Math.atan(ball.yspeed / ball.xspeed);
+			//           var anglecoll1 = Math.atan(disty / distx);
+			//           var anglecoll = anglecoll1 - angle1;
+			//           var speed1new = speed1 * Math.abs(Math.sin(anglecoll));
+			//           var speed2new = speed1 * Math.abs(Math.cos(anglecoll));
+			//           if (anglecoll < 0) var angle1new = angle1 + anglecoll + Math.PI / 2;
+			//           else var angle1new = angle1 + anglecoll - Math.PI / 2;
+			//           var angle2new = angle1 + anglecoll;
+			//           ball.xspeed = speed1new * Math.cos(angle1new);
+			//           ball.yspeed = speed1new * Math.sin(angle1new);
+			//           ball2.xspeed = speed2new * Math.cos(angle2new);
+			//           ball2.yspeed = speed2new * Math.sin(angle2new);
+			//       }
 
 		    
 		    ball.xspeed *= collision_friction;
