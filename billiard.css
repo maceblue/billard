@@ -1,0 +1,130 @@
+body,html {
+    height: 100%;
+    margin:0px;
+    padding:0px;
+}
+
+#table {
+	width: 800px;
+	height: 400px;
+	transform : translateZ(0); 
+	/*background-color: darkgreen;*/
+	background-image: url("billiard-table.png");
+	background-size: 800px 400px;
+	overflow: hidden;
+    margin:0px;
+    padding:0px;
+}
+#table_inner {
+	border:0px solid red;
+	width: 714px;
+	height: 322px;
+	margin-top: 39px;
+	margin-left: 43px;
+	background: none;
+}
+#end_game_layer {
+	width: 500px;
+	height: 200px;
+	text-align: center;
+	margin: auto;
+	background-color: white;
+	border: 2px solid blue;
+	border-radius: 50px;
+	position: relative;
+	z-index: 100;
+}
+#end_game_layer span {
+	font-size: 50px;
+	font-weight: bold;
+	font-family: fantasy;
+	color: red;
+}
+
+.ball {
+	-webkit-transition: -webkit-transform linear;
+    -moz-transition: -moz-transform linear;
+	transform : translateZ(0); 
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	background:#004E99;
+	border-radius:50%;
+	box-shadow: -5px -5px 1px 1px rgba(0,0,0,0.1);
+}
+.ball.half:before {
+	content: "";
+	position: absolute;
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 20%,rgba(255,255,255,1) 20%,rgba(255,255,255,0) 20%);
+	border-radius:50%;
+	bottom: 0%;
+	left: 0%;
+	opacity: 0.9;
+	height: 30px;
+	width: 30px;
+	z-index: -1;
+}
+.ball.half:after {
+	content: "";
+	position: absolute;
+	background: linear-gradient(to bottom, rgba(30,87,153,0) 0%,rgba(244,247,250,0) 80%,rgba(247,249,251,1) 80%,rgba(255,255,255,1) 80%,rgba(255,255,255,1) 100%);
+	border-radius:50%;
+	top: 0%;
+	left: 0%;
+	opacity: 0.9;
+	height: 30px;
+	width: 30px;
+	z-index: -1;
+}
+
+.ball>div{
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+
+.ball>div>span{
+	position:absolute;
+	left:8px;
+	top:8px;
+	width:15px;
+	height:15px;
+	border-radius:50%;
+	text-align:center;
+	line-height:15px;
+	font-size:12px;
+	font-weight:bold;
+	background:#fff;
+}
+
+.ball.yellow {
+	background: radial-gradient(circle at 20px 20px, #fc0, #001);
+}
+.ball.blue {
+	background: radial-gradient(circle at 20px 20px, #09f, #001);
+}
+.ball.red {
+	background: radial-gradient(circle at 20px 20px, #f30, #001);
+}
+.ball.pink {
+	background: radial-gradient(circle at 20px 20px, #80f, #001);
+}
+.ball.orange {
+	background: radial-gradient(circle at 20px 20px, #f73, #001);
+}
+.ball.green {
+	background: radial-gradient(circle at 20px 20px, #0f4, #001);
+}
+.ball.brown {
+	background: radial-gradient(circle at 20px 20px, #a30, #001);
+}
+.ball.black {
+	background: radial-gradient(circle at 20px 20px, #000, #001);
+}
+.ball.white {
+	background: radial-gradient(circle at 20px 20px, #fff, #999);
+}
+.ball.white>div>span{
+	background:none;
+}
