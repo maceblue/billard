@@ -11,11 +11,11 @@ function tick() {
         	var distance_y = Math.abs(ballsArray[x].top-ballsArray[y].top);
         	var distance = Math.sqrt(distance_x*distance_x+distance_y*distance_y);
         	
-        	if (distance < 20) { // sticky balls
-// console.log('sticky!');
-        		ballsArray[x].collision = 0;
-                ballsArray[y].collision = 0;
-        	} else 
+//         	if (distance < 20) { // sticky balls
+// // console.log('sticky!');
+//         		ballsArray[x].collision = 0;
+//                 ballsArray[y].collision = 0;
+//         	} else 
         	if (distance<=30 
         		// && distance > 29
         		&& (ballsArray[x].collision == 0 || ballsArray[y].collision == 0)
@@ -26,8 +26,8 @@ function tick() {
                 ballsArray[y].collision = 1;
 // console.log('bounce');
 				// TODO: let both balls not collide for some frame to get no stickyness.
-				ballsArray[x].collision_delay = 10;
-				ballsArray[y].collision_delay = 10;
+				ballsArray[x].collision_delay = 20;
+				ballsArray[y].collision_delay = 20;
                 manage_bounce(ballsArray[x], ballsArray[y]);
         	} else if (distance>30) {
                 ballsArray[x].collision = 0;
@@ -49,6 +49,9 @@ function tick() {
 console.log('end');
 		if (white_ball_dropped) {
 			add_white_ball();	
+		} else if (black_ball_dropped) {
+			manage_black_ball_dropped();
+			black_ball_dropped = false;
 		}
     }
 }

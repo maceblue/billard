@@ -41,12 +41,10 @@ function moveBall() {
 				&& ballsArray[i].left>=tablewidth-ballsize*1.25
 			)
 		) {
-			
 			if (ballsArray[i].color=='white') {
 				white_ball_dropped = true;
 			} else if (ballsArray[i].color=='black') {
 				black_ball_dropped = true;
-				manage_black_ball_droped();
 			}
 
 			// remove ball
@@ -54,7 +52,7 @@ function moveBall() {
 			ballsArray[i].yspeed = 0;
 			ballsArray[i].parentNode.removeChild(ballsArray[i]);
 			ballsArray.splice(i, 1);
-			
+
 			continue;
 		}
 		
