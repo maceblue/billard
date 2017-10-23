@@ -72,8 +72,8 @@ console.log('mousepower: ' + mousepower);
 		var radianAngle = Math.atan2(dy, dx) * 180 / Math.PI;
 		radianAngle += 180;
 
-		cue.style.top = white_ball_elem.top+45 + 'px';
-		cue.style.left = white_ball_elem.left+57 + 'px';
+		cue.style.top = white_ball_elem.top+49 + 'px';
+		cue.style.left = white_ball_elem.left+74 + 'px';
   		cue.style.transform = 'rotate('+radianAngle+'deg)';
 	});
 

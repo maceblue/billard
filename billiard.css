@@ -82,7 +82,7 @@ body,html {
 	top: 100px;
 	left: 200px;
 	z-index: 103;
-	transform-origin: 0% 50%;
+	transform-origin: -4% 50%;
 }
 
 #end_game_layer {
