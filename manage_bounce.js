@@ -3,13 +3,14 @@ function manage_bounce(ball, ball2) {
     var dy = ball.top-ball2.top;
     var collisionision_angle = Math.atan2(dy, dx);
     var distance = Math.sqrt(dx*dx + dy*dy);
-	if (distance<30) { //sticky!
-console.log('sticky!', dx, dy);
-		ball.left += Math.cos(collisionision_angle) * (30-distance);
-        ball.top += Math.sin(collisionision_angle) * (30-distance);
+	
+    // resolve stickyness
+    if (distance<ballsize) {
+// console.log('sticky!', dx, dy);
+		ball.left += Math.cos(collisionision_angle) * (ballsize-distance);
+        ball.top += Math.sin(collisionision_angle) * (ballsize-distance);
 	}
 
-    
     magnitude_1 = Math.sqrt(ball.xspeed*ball.xspeed+ball.yspeed*ball.yspeed);
     magnitude_2 = Math.sqrt(ball2.xspeed*ball2.xspeed+ball2.yspeed*ball2.yspeed);
     direction_1 = Math.atan2(ball.yspeed, ball.xspeed);
@@ -27,46 +28,8 @@ console.log('sticky!', dx, dy);
     ball2.xspeed = Math.cos(collisionision_angle)*final_xspeed_2+Math.cos(collisionision_angle+Math.PI/2)*final_yspeed_2;
     ball2.yspeed = Math.sin(collisionision_angle)*final_xspeed_2+Math.sin(collisionision_angle+Math.PI/2)*final_yspeed_2;
 
-    
-
-    // var absV = Math.abs(ball.xspeed) + Math.abs(ball2.xspeed); 
-    // overlap = (30) - Math.abs(ball.left - ball2.left); 
-    // ball.left += ball.xspeed / absV * overlap; 
-    // ball2.left += ball2.xspeed / absV * overlap; 
-
-    // test another elastic collision algorithm
-    // var distx = ball.left-ball2.left;
-	//       var disty = ball.top-ball2.top;
-	//       var dist = Math.sqrt(distx * distx + disty * disty);
-	//       if (dist < 30) {
-	//           var xspeed1 = ball.xspeed;
-	//           var yspeed1 = ball.yspeed;
-	//           var speed1 = Math.sqrt(xspeed1 * xspeed1 + yspeed1 * yspeed1);
-	//           var speed2 = 0;
-	//           var angle1 = Math.atan(ball.yspeed / ball.xspeed);
-	//           var anglecoll1 = Math.atan(disty / distx);
-	//           var anglecoll = anglecoll1 - angle1;
-	//           var speed1new = speed1 * Math.abs(Math.sin(anglecoll));
-	//           var speed2new = speed1 * Math.abs(Math.cos(anglecoll));
-	//           if (anglecoll < 0) var angle1new = angle1 + anglecoll + Math.PI / 2;
-	//           else var angle1new = angle1 + anglecoll - Math.PI / 2;
-	//           var angle2new = angle1 + anglecoll;
-	//           ball.xspeed = speed1new * Math.cos(angle1new);
-	//           ball.yspeed = speed1new * Math.sin(angle1new);
-	//           ball2.xspeed = speed2new * Math.cos(angle2new);
-	//           ball2.yspeed = speed2new * Math.sin(angle2new);
-	//       }
-
-    
     ball.xspeed *= collision_friction;
     ball.yspeed *= collision_friction;
     ball2.xspeed *= collision_friction;
     ball2.yspeed *= collision_friction;
-
-    // if ((ball.top <= ball2.top+(ballsize/2) && ball.left <= ball2.left+(ballsize/2)) 
-    // 	|| (ball.top >= ball2.top-(ballsize/2) && ball.left >= ball2.left+(ballsize/2))
-    // ) {
-    // 	ball.top += 1;
-    // 	ball.left += 1;
-    // }
 }
