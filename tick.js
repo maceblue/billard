@@ -26,8 +26,8 @@ function tick() {
                 ballsArray[y].collision = 1;
 // console.log('bounce');
 				// TODO: let both balls not collide for some frame to get no stickyness.
-				ballsArray[x].collision_delay = 20;
-				ballsArray[y].collision_delay = 20;
+				ballsArray[x].collision_delay = 0;
+				ballsArray[y].collision_delay = 0;
                 manage_bounce(ballsArray[x], ballsArray[y]);
         	} else if (distance>30) {
                 ballsArray[x].collision = 0;

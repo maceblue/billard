@@ -3,14 +3,10 @@ function manage_bounce(ball, ball2) {
     var dy = ball.top-ball2.top;
     var collisionision_angle = Math.atan2(dy, dx);
     var distance = Math.sqrt(dx*dx + dy*dy);
-    magnitude_1 = Math.sqrt(ball.xspeed*ball.xspeed+ball.yspeed*ball.yspeed);
-    magnitude_2 = Math.sqrt(ball2.xspeed*ball2.xspeed+ball2.yspeed*ball2.yspeed);
-	if (distance<29) { //sticky!
+	if (distance<30) { //sticky!
 console.log('sticky!', dx, dy);
-			ball.left += Math.cos(magnitude_1) * dx;
-        ball.top += Math.sin(magnitude_1) * dy;
-		// ball.left += dx;
-		// ball.top += dy;
+		ball.left += Math.cos(collisionision_angle) * (30-distance);
+        ball.top += Math.sin(collisionision_angle) * (30-distance);
 	}
 
     
