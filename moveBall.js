@@ -53,6 +53,18 @@ function moveBall() {
 			ballsArray[i].parentNode.removeChild(ballsArray[i]);
 			ballsArray.splice(i, 1);
 
+			// manage players
+			if (player1.ballscolor == null) {
+				if (his_game == 1) {
+					player1.full = ballsArray[i].full;
+					player2.full = !(ballsArray[i].full);
+				} else {
+					player2.full = ballsArray[i].full;
+					player1.full = !(ballsArray[i].full);
+				}
+console.log('Spieler1 hat die Vollen', player1.full);
+			}
+console.log('Spieler am Zug', his_game);
 			continue;
 		}
 		

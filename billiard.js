@@ -18,6 +18,10 @@ var white_ball_elem = new Object();
 var mousedowntimer;
 var mousepower = 0;
 
+var player1 = new Object();
+var player2 = new Object();
+var his_game;
+
 window.requestAnimFrame = (function() {
     return  window.requestAnimationFrame       || 
 			window.webkitRequestAnimationFrame || 

@@ -13,3 +13,10 @@ bouncingballs description
 http://www.emanueleferonato.com/2007/08/19/managing-ball-vs-ball-collision-with-flash/
 
 slow down balls -> google for friction
+
+players
+	- 2 players
+	- random starter
+	- save full/half at first strike
+	- count players balls after each turn
+	- manage black ball dropped
