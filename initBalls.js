@@ -161,7 +161,4 @@ function initBalls() {
 		ballsArray.push(ball);
 	}
 
-	// loop
-	tick();
-	
 }

@@ -40,5 +40,6 @@ console.log('end');
 			manage_black_ball_dropped();
 			black_ball_dropped = false;
 		}
+        cue.style.display = 'block';
     }
 }

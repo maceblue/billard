@@ -9,6 +9,7 @@ function add_white_ball() {
 }
 
 function push_white_ball(xspeed, yspeed) {
+	cue.style.display = 'none';
 	for (var i=0; i<ballsArray.length; i++) {
 		if (ballsArray[i].color=='white') {		
 			ballsArray[i].xspeed = xspeed;

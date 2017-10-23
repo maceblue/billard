@@ -14,6 +14,11 @@ function init() {
 	meter_span = document.createElement('span');
 	meter.appendChild(meter_span);
 
+	cue = document.createElement('img');
+	cue.id = 'cue';
+	cue.src = 'cue.png'
+	document.body.appendChild(cue);
+
 	// add mouse function to push white ball
 	table_inner.addEventListener("mousedown", function() {
 		meter.style.display = 'block';
@@ -41,8 +46,27 @@ function init() {
 		push_white_ball(xspeed, yspeed);
 		tick();
 	});
+	
 	//window.onmousemove = handleMouseMove;
 
 	//INIT BALLS & PHYSICS
     initBalls();
+
+    // Bind Cue to white ball
+    table_inner.addEventListener("mousemove", function(e) {
+    	mouseX = parseInt(e.clientX);
+		mouseY = parseInt(e.clientY);
+		var dx = mouseX - white_ball_elem.left-60;
+		var dy = mouseY - white_ball_elem.top-55;
+		radianAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+		radianAngle += 180;
+    	// TODO: Rotation and better Position of Cue
+		cue.style.top = white_ball_elem.top+45 + 'px';
+		cue.style.left = white_ball_elem.left+57 + 'px';
+
+  		cue.style.transform = 'rotate('+radianAngle+'deg)';
+	});
+
+    // loop
+	tick();
 }

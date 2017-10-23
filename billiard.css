@@ -76,6 +76,15 @@ body,html {
 	border-bottom-left-radius: 20px;
 	overflow: hidden;
 }
+#cue {
+	display: block;
+	position: absolute;
+	top: 100px;
+	left: 200px;
+	z-index: 103;
+	transform-origin: 0% 50%;
+}
+
 #end_game_layer {
 	width: 300px;
 	height: 100px;
