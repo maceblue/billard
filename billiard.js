@@ -2,7 +2,7 @@ var ballsArray = [];
 var billardballs = [];
 var ballsize = 30;
 
-var speedLimit = 30;
+var speedLimit = 20;
 var tableheight = 322;
 var tablewidth = 714;
 
