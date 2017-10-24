@@ -41,6 +41,9 @@ function moveBall() {
 				&& ballsArray[i].left>=tablewidth-ballsize*1.25
 			)
 		) {
+			// BALL DROPPED
+
+			// black or white?
 			if (ballsArray[i].color=='white') {
 				white_ball_dropped = true;
 			} else if (ballsArray[i].color=='black') {
@@ -48,34 +51,7 @@ function moveBall() {
 			}
 
 			// manage players
-			if (player1.full == null) { // no ball dropped yet
-				if (current_player == 1) {
-					player1.full = ballsArray[i].full;
-					player2.full = !(ballsArray[i].full);
-				} else {
-					player2.full = ballsArray[i].full;
-					player1.full = !(ballsArray[i].full);
-				}
-			} else { // players have their colors
-				if (current_player == 1) {
-					if (!ballsArray[i].full) {
-						current_player = 2;
-						document.getElementById('player_layer').innerText = 'Spieler2 ist am Zug.';
-					}
-				} else {
-					if (ballsArray[i].full) {
-						current_player = 1;
-						document.getElementById('player_layer').innerText = 'Spieler1 ist am Zug.';
-					}
-				}
-			}
-if (player1.full) {
-	console.log('Spieler1 hat die Vollen');
-	console.log('Spieler2 hat die Halben');
-} else {
-	console.log('Spieler1 hat die Halben');
-	console.log('Spieler2 hat die Vollen');
-}
+			manage_players_when_ball_dropped($ballsArray[i]);
 
 			// remove ball
 			ballsArray[i].xspeed = 0;
@@ -83,8 +59,6 @@ if (player1.full) {
 			ballsArray[i].parentNode.removeChild(ballsArray[i]);
 			ballsArray.splice(i, 1);
 
-			
-console.log('Spieler'+current_player+' am Zug');
 			continue;
 		}
 		
