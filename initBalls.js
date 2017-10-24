@@ -149,6 +149,7 @@ function initBalls() {
 		ball.collision_delay = 0;
 		ball.mass = 1;
 		ball.color = billardballs[i].color;
+		ball.full = billardballs[i].full;
 
 		// defined position and speed
 			ball.xspeed = 0;

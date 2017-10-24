@@ -29,7 +29,7 @@ function init() {
 	    		meter_span.style.width = mousepower * meter_step + '%';
 	    		mousepower++;
 	    	}
-console.log('mousepower: ' + mousepower);
+// console.log('mousepower: ' + mousepower);
 	        var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
 	        var mouseY = parseInt(e.clientY)-39-ballsize/2;
 	        var dx = mouseX - white_ball_elem.left;
@@ -80,11 +80,11 @@ console.log('mousepower: ' + mousepower);
 	// random player start
 	x = Math.round(Math.random())
 	if (x==0) {
-		his_game = 1;
+		current_player = 1;
 		player1.mygame = true;
 		player2.mygame = false;
 	} else {
-		his_game = 2;
+		current_player = 2;
 		player2.mygame = true;
 		player1.mygame = false;
 	}

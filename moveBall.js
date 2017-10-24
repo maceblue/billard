@@ -47,24 +47,44 @@ function moveBall() {
 				black_ball_dropped = true;
 			}
 
-			// remove ball
-			ballsArray[i].xspeed = 0;
-			ballsArray[i].yspeed = 0;
-			ballsArray[i].parentNode.removeChild(ballsArray[i]);
-			ballsArray.splice(i, 1);
-
 			// manage players
-			if (player1.ballscolor == null) {
-				if (his_game == 1) {
+			if (player1.full == null) { // no ball dropped yet
+				if (current_player == 1) {
 					player1.full = ballsArray[i].full;
 					player2.full = !(ballsArray[i].full);
 				} else {
 					player2.full = ballsArray[i].full;
 					player1.full = !(ballsArray[i].full);
 				}
-console.log('Spieler1 hat die Vollen', player1.full);
+			} else { // players have their colors
+				if (current_player == 1) {
+					if (!ballsArray[i].full) {
+						current_player = 2;
+						document.getElementById('player_layer').innerText = 'Spieler2 ist am Zug.';
+					}
+				} else {
+					if (ballsArray[i].full) {
+						current_player = 1;
+						document.getElementById('player_layer').innerText = 'Spieler1 ist am Zug.';
+					}
+				}
 			}
-console.log('Spieler am Zug', his_game);
+if (player1.full) {
+	console.log('Spieler1 hat die Vollen');
+	console.log('Spieler2 hat die Halben');
+} else {
+	console.log('Spieler1 hat die Halben');
+	console.log('Spieler2 hat die Vollen');
+}
+
+			// remove ball
+			ballsArray[i].xspeed = 0;
+			ballsArray[i].yspeed = 0;
+			ballsArray[i].parentNode.removeChild(ballsArray[i]);
+			ballsArray.splice(i, 1);
+
+			
+console.log('Spieler'+current_player+' am Zug');
 			continue;
 		}
 		

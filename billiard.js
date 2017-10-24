@@ -20,7 +20,7 @@ var mousepower = 0;
 
 var player1 = new Object();
 var player2 = new Object();
-var his_game;
+var current_player;
 
 window.requestAnimFrame = (function() {
     return  window.requestAnimationFrame       || 
