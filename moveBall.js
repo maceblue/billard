@@ -51,7 +51,7 @@ function moveBall() {
 			}
 
 			// manage players
-			manage_players_when_ball_dropped($ballsArray[i]);
+			manage_players_when_ball_dropped(ballsArray[i]);
 
 			// remove ball
 			ballsArray[i].xspeed = 0;
