@@ -15,8 +15,11 @@ http://www.emanueleferonato.com/2007/08/19/managing-ball-vs-ball-collision-with-
 slow down balls -> google for friction
 
 players
-	- 2 players
-	- random starter
-	- save full/half at first strike
+	- DONE 2 players
+	- DONE random starter
+	- DONE save full/half at first strike
+	- manage current player when ball dropped
+		take care when more balls drop
 	- count players balls after each turn
 	- manage black ball dropped
+	- manage players when white ball dropped
