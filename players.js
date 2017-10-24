@@ -18,7 +18,10 @@ function random_player_start() {
 }
 
 function manage_players_when_ball_dropped(ball) {
-	if (player1.full == null && ball.color!='white' && ball.color!='black') { // no ball dropped yet - apply color
+	if (player1.full == null 	// no ball dropped yet - apply color
+		&& ball.color!='white' 	// exclude white ball
+		&& ball.color!='black' 	// exclude black ball
+	) { 
 		if (current_player == 1) {
 			player1.full = ball.full;
 			player2.full = !(ball.full);
@@ -27,6 +30,7 @@ function manage_players_when_ball_dropped(ball) {
 			player1.full = !(ball.full);
 		}
 	} else { // players already have their colors - select next player
+		// switch to player2 when...
 		if (current_player == 1) {
 			if (ball.full && player1.full == false
 				||
@@ -35,7 +39,8 @@ function manage_players_when_ball_dropped(ball) {
 				current_player = 2;
 				document.getElementById('player_layer').innerText = 'Spieler2 ist am Zug.';
 			}
-		} else {
+		// switch to player1 when...
+		} else if (current_player == 2) {
 			if (ball.full && player2.full == false
 				||
 				ball.full == false && player2.full
