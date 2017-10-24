@@ -20,6 +20,7 @@ players
 	- DONE save full/half at first strike
 	- manage current player when ball dropped
 		take care when more balls drop
+	- manage current player no ball dropped
 	- count players balls after each turn
 	- manage black ball dropped
 	- manage players when white ball dropped
