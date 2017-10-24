@@ -41,5 +41,6 @@ console.log('end');
 			black_ball_dropped = false;
 		}
         cue.style.display = 'block';
+        manage_players_when_ball_dropped = [];
     }
 }

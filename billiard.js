@@ -21,6 +21,7 @@ var mousepower = 0;
 var player1 = new Object();
 var player2 = new Object();
 var current_player;
+var balls_dropped_this_turn = new Array();
 
 window.requestAnimFrame = (function() {
     return  window.requestAnimationFrame       || 

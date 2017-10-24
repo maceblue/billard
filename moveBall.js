@@ -50,6 +50,9 @@ function moveBall() {
 				black_ball_dropped = true;
 			}
 
+			// save balls dropped this turn
+			balls_dropped_this_turn.push(ballsArray[i]);
+
 			// manage players
 			manage_players_when_ball_dropped(ballsArray[i]);
 
