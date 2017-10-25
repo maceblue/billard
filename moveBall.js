@@ -53,9 +53,6 @@ function moveBall() {
 			// save balls dropped this turn
 			balls_dropped_this_turn.push(ballsArray[i]);
 
-			// manage players
-			manage_players_when_ball_dropped(ballsArray[i]);
-
 			// remove ball
 			ballsArray[i].xspeed = 0;
 			ballsArray[i].yspeed = 0;
