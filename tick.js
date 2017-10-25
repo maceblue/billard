@@ -34,14 +34,15 @@ function tick() {
     	requestAnimFrame( tick );//RUN THE NEXT TICK	
     } else {
 console.log('end');
+cue.style.display = 'block';
+        manage_players();
+        balls_dropped_this_turn = [];
+
 		if (white_ball_dropped) {
 			add_white_ball();	
 		} else if (black_ball_dropped) {
 			manage_black_ball_dropped();
 			black_ball_dropped = false;
 		}
-        cue.style.display = 'block';
-        manage_players();
-        balls_dropped_this_turn = [];
     }
 }

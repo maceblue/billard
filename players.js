@@ -9,9 +9,9 @@ function random_player_start() {
 		player2.mygame = true;
 		player1.mygame = false;
 	}
-	var player_layer = document.createElement('p');
+	var player_layer = document.createElement('div');
 	player_layer.id = 'player_layer';
-	player_layer.innerText = 'Spieler' + parseInt(x+1) + ' is am Zug.'
+	player_layer.innerHTML = 'Spieler' + parseInt(x+1) + ' is am Zug.'
 	document.body.appendChild(player_layer);
 	player1.full = null;
 	player2.full = null;
@@ -20,7 +20,8 @@ function random_player_start() {
 function manage_players() {
 	var dropped_full = false;
 	var dropped_half = false;
-	if (balls_dropped_this_turn.length > 0) {
+	var infotext_color = '';
+	if (balls_dropped_this_turn.length > 0 && !white_ball_dropped) {
 		for (var i=0; i<balls_dropped_this_turn.length; i++) {
 			var ball = balls_dropped_this_turn[i];
 			if (ball.full) {
@@ -39,7 +40,7 @@ function manage_players() {
 		 			player2.full = ball.full;
 		 			player1.full = !(ball.full);
 		 		}
-		 	}
+		 	} 
 		}
 		// switch to player2 when...
 		if (current_player == 1) {
@@ -48,7 +49,6 @@ function manage_players() {
 				player1.full && dropped_half
 			) {
 				current_player = 2;
- 				document.getElementById('player_layer').innerText = 'Spieler2 ist am Zug.';
 			}
 		// switch to player1 when...
 		} else if (current_player == 2) {
@@ -57,24 +57,19 @@ function manage_players() {
  				dropped_half && player2.full
  			) {
  				current_player = 1;
- 				document.getElementById('player_layer').innerText = 'Spieler1 ist am Zug.';
  			}
  		} 
 	} else { // no ball dropped - next player
 		if (current_player == 1) {
 			current_player = 2;
-			document.getElementById('player_layer').innerText = 'Spieler2 ist am Zug.';
 		} else {
 			current_player = 1;
-			document.getElementById('player_layer').innerText = 'Spieler1 ist am Zug.';
 		}
 	}
 if (player1.full) {
-	console.log('Spieler1 hat die Vollen');
-	console.log('Spieler2 hat die Halben');
-} else {
-	console.log('Spieler1 hat die Halben');
-	console.log('Spieler2 hat die Vollen');
+	infotext_color = 'Spieler1 hat die Vollen<br>Spieler2 hat die Halben<br>'
+} else if (player2.full) {
+	infotext_color = 'Spieler1 hat die Halben<br>Spieler2 hat die Vollen<br>'
 }
-console.log('Spieler'+current_player+' am Zug');
+	document.getElementById('player_layer').innerHTML = infotext_color + 'Spieler'+current_player+' ist am Zug';
 }

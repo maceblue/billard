@@ -1,11 +1,11 @@
 function manage_black_ball_dropped() {
-console.log(ballsArray.length);
+
 	if (ballsArray.length <= 1) {
 		// Regular Game Over
-		var text = 'Gewinner!';
+		var text = 'Spieler'+current_player+' ist Gewinner!';
 	} else {
 		// Failure Game Over
-		var text = 'verloren!';
+		var text = 'Spieler'+current_player+' hat verloren!';
 	}
 
 	var layer = document.createElement('div');

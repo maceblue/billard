@@ -54,7 +54,6 @@ function init() {
         var xspeed = Math.cos(radianAngle) * mousepower;
         var yspeed = Math.sin(radianAngle) * mousepower;
 		push_white_ball(xspeed, yspeed);
-		// tick();
 	});
 	
 	//window.onmousemove = handleMouseMove;

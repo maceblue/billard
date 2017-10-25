@@ -99,15 +99,15 @@ function moveBall() {
 		// totalspeed is mainly between 0.4 and 4
 		// friction has to be between 0.95 (slow balls) and 0.99 (fast balls)
 		if (totalspeed < 1) {
-			friction = 0.990;
+			friction = 0.985;
 		} else if (totalspeed >1 && totalspeed <2){
-			friction = 0.990;
+			friction = 0.985;
 		}else if (totalspeed >2 && totalspeed <3){
-			friction = 0.991;
+			friction = 0.990;
 		}else if (totalspeed >3 && totalspeed <4){
-			friction = 0.992;
+			friction = 0.990;
 		}else if (totalspeed >4 && totalspeed <50){
-			friction = 0.993;
+			friction = 0.992;
 		}
 		// var t = totalspeed / 100;
 		// var t_friction = 0.93 + t;
