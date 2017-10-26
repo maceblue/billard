@@ -24,3 +24,87 @@ players
 	- count players balls after each turn
 	- manage black ball dropped
 	- manage players when white ball dropped
+
+
+server.php
+called without parameter 
+	- create two unique_ids for the players
+	- return both unique_ids
+
+called with parameter
+	- parameter1: unique_id of player
+	- parameter2: xspeed,yspeed of white_ball
+
+Nachdem man dran war muss der client ständig den server fragen, ob der andere Spieler schon gestoßen
+hat und wie die weiße Kugel gestoßen wurde.
+Hier wäre eine live-Verbindung besser als ständige Requests.
+
+Lösung Websocket:
+Client
+// Create a socket instance
+var socket = new WebSocket('ws://localhost:8080');
+
+// Open the socket
+socket.onopen = function(event) {
+	
+	// Send an initial message
+	socket.send('I am the client and I\'m listening!');
+	
+	// Listen for messages
+	socket.onmessage = function(event) {
+		console.log('Client received a message',event);
+	};
+	
+	// Listen for socket closes
+	socket.onclose = function(event) {
+		console.log('Client notified socket has closed',event);
+	};
+	
+	// To close the socket....
+	//socket.close()
+	
+};
+
+Oder Socket.io
+Client
+<script src="http://cdn.socket.io/stable/socket.io.js"></script>
+// Create SocketIO instance, connect
+var socket = new io.Socket('localhost',{
+	port: 8080
+});
+socket.connect(); 
+
+// Add a connect listener
+socket.on('connect',function() {
+	console.log('Client has connected to the server!');
+});
+// Add a connect listener
+socket.on('message',function(data) {
+	console.log('Received a message from the server!',data);
+});
+// Add a disconnect listener
+socket.on('disconnect',function() {
+	console.log('The client has disconnected!');
+});
+
+// Sends a message to the server via sockets
+function sendMessageToServer(message) {
+	socket.send(message);
+}
+
+Server
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
