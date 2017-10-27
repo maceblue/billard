@@ -3,6 +3,8 @@ var http = require('http');
 
 var webSocketsServerPort = 1337;
 
+var clients = [ ];
+
 var server = http.createServer(function(request, response) {
 	// dummy http-server
 });
@@ -19,6 +21,7 @@ wsServer = new WebSocketServer({
 wsServer.on('request', function(request) {
 	var connection = request.accept(null, request.origin);
 	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
+	var index = clients.push(connection) - 1;
 	
 	connection.on('message', function(message) {
 		// console.log('incoming message:', message);
@@ -29,11 +32,14 @@ wsServer.on('request', function(request) {
 	    	console.log('Invalid JSON: ', message.utf8Data);
 	    	return;
 	    }
-	    connection.send(message.utf8Data);
+	    for (var i=0; i < clients.length; i++) {
+          clients[i].send(message.utf8Data);
+        }
 	});
 
 	connection.on('close', function(connection) {
 		// close user connection
+		clients.splice(index, 1);
 		console.log('closed connection');
 	});
 });

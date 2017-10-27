@@ -54,6 +54,10 @@ function init() {
         var xspeed = Math.cos(radianAngle) * mousepower;
         var yspeed = Math.sin(radianAngle) * mousepower;
 		push_white_ball(xspeed, yspeed);
+		if (connected) {
+            var json = JSON.stringify({ type: 'message', xspeed: xspeed, yspeed: yspeed });
+            server_connection.send(json);
+        }
 	});
 	
 	//window.onmousemove = handleMouseMove;
@@ -76,18 +80,16 @@ function init() {
   		cue.style.transform = 'rotate('+radianAngle+'deg)';
 	});
 
-	// random player start
-	random_player_start();
-
-	// init server-connection via websocket
-	// if user is running mozilla then use it's built-in WebSocket
+	// SERVER-CONNECTION via websocket
 	window.WebSocket = window.WebSocket || window.MozWebSocket;
-	server_connection = new WebSocket('ws://127.0.0.1:1337');
+	server_connection = new WebSocket('ws://'+server_host+':'+server_port);
 	server_connection.onopen = function () {
-	// connection is opened and ready to use
+		// connection is opened and ready to use
+		connected = true;
 	};
 	server_connection.onerror = function (error) {
-	// an error occurred when sending/receiving data
+		// an error occurred when sending/receiving data
+		connected = false;
 	};
 	server_connection.onmessage = function (message) {
 		// try to decode json (I assume that each message
@@ -99,13 +101,23 @@ function init() {
 		  return;
 		}
 		// handle incoming message
-		for (var i=0; i<ballsArray.length; i++) {
-			ballsArray[i].top = json.balls[i].top;
-			ballsArray[i].left = json.balls[i].left;
+		if (json.balls) {
+			for (var i=0; i<ballsArray.length; i++) {
+				ballsArray[i].top = json.balls[i].top;
+				ballsArray[i].left = json.balls[i].left;
+			}
 		}
+		if (json.xspeed && json.yspeed) {
+			push_white_ball(json.xspeed, json.yspeed);
+		}
+		
 console.log('received ballsArray from server');
 		moveBall();
 	};
+
+
+	// random player start
+	random_player_start();
 
 
     // loop

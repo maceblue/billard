@@ -34,8 +34,10 @@ function tick() {
     	requestAnimFrame( tick );//RUN THE NEXT TICK	
     } else {
 console.log('end');
-        var json = JSON.stringify({ type: 'message', balls: ballsArray });
-        server_connection.send(json);
+        if (connected) {
+            var json = JSON.stringify({ type: 'message', balls: ballsArray });
+            server_connection.send(json);
+        }
         cue.style.display = 'block';
         manage_players();
         balls_dropped_this_turn = [];

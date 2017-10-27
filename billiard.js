@@ -23,6 +23,10 @@ var player2 = new Object();
 var current_player;
 var balls_dropped_this_turn = new Array();
 
+var connected = false;
+var server_host = '127.0.0.1';
+var server_port = 1337;
+
 window.requestAnimFrame = (function() {
     return  window.requestAnimationFrame       || 
 			window.webkitRequestAnimationFrame || 
