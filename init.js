@@ -82,28 +82,29 @@ function init() {
 	// init server-connection via websocket
 	// if user is running mozilla then use it's built-in WebSocket
 	window.WebSocket = window.WebSocket || window.MozWebSocket;
-
-	var connection = new WebSocket('ws://127.0.0.1:1337');
-
-	connection.onopen = function () {
+	server_connection = new WebSocket('ws://127.0.0.1:1337');
+	server_connection.onopen = function () {
 	// connection is opened and ready to use
 	};
-
-	connection.onerror = function (error) {
+	server_connection.onerror = function (error) {
 	// an error occurred when sending/receiving data
 	};
-
-	connection.onmessage = function (message) {
-	// try to decode json (I assume that each message
-	// from server is json)
-	try {
-	  var json = JSON.parse(message.data);
-	} catch (e) {
-	  console.log('This doesn\'t look like a valid JSON: ',
-	      message.data);
-	  return;
-	}
-	// handle incoming message
+	server_connection.onmessage = function (message) {
+		// try to decode json (I assume that each message
+		// from server is json)
+		try {
+		  var json = JSON.parse(message.data);
+		} catch (e) {
+		  console.log('This doesn\'t look like a valid JSON: ', message.data);
+		  return;
+		}
+		// handle incoming message
+		for (var i=0; i<ballsArray.length; i++) {
+			ballsArray[i].top = json.balls[i].top;
+			ballsArray[i].left = json.balls[i].left;
+		}
+console.log('received ballsArray from server');
+		moveBall();
 	};
 
 
