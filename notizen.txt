@@ -110,3 +110,10 @@ wsServer.on('request', function(request) {
 	console.log('closed connection');
 	});
 });
+
+Neuaufbau ballsArray nach Stoß:
+Nach Stoß wenn Kugeln wieder still stehen muss das billiardballs-Array um die Informationen des ballsArray aktualisiert werden. 
+Informationen: top, left, dropped
+Anschließend muss das billiardballs-Array an den Server gesendet werden,
+welcher es dann wiederum an den Gegener sendet.
+Es muss hierfür das billiardballs-Array (und nicht ballsArray) verwendet werden, da im ballsArray unter Umständen schon Kugeln fehlen (eingelocht), die beim Gegner aber noch existieren (Stöße sind in den Browsern nicht ganz syncron!).

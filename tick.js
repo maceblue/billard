@@ -34,7 +34,7 @@ function tick() {
     	requestAnimFrame( tick );//RUN THE NEXT TICK	
     } else {
 console.log('end');
-        if (connected) {
+        if (connected && current_player==client) {
             var json = JSON.stringify({ type: 'message', balls: ballsArray });
             server_connection.send(json);
         }

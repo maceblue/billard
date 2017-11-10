@@ -53,6 +53,13 @@ function moveBall() {
 			// save balls dropped this turn
 			balls_dropped_this_turn.push(ballsArray[i]);
 
+			// update billardballs array
+			for (var a=0; a<billardballs.length; a++) {
+				if (ballsArray[i].color == billardballs[a].color) {
+					billardballs[a].dropped = true;
+				}
+			}
+
 			// remove ball
 			ballsArray[i].xspeed = 0;
 			ballsArray[i].yspeed = 0;

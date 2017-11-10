@@ -22,6 +22,8 @@ wsServer.on('request', function(request) {
 	var connection = request.accept(null, request.origin);
 	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
 	var index = clients.push(connection) - 1;
+	var json = JSON.stringify({ type: 'message', client: index+1 });
+	connection.send(json);
 	
 	connection.on('message', function(message) {
 		// console.log('incoming message:', message);

@@ -101,17 +101,33 @@ function init() {
 		  return;
 		}
 		// handle incoming message
-		if (json.balls) {
-			for (var i=0; i<ballsArray.length; i++) {
-				ballsArray[i].top = json.balls[i].top;
-				ballsArray[i].left = json.balls[i].left;
-			}
+		if (typeof json.client !== 'undefined' && !client ) {
+			client = json.client;
+console.log('received client from server');
 		}
-		if (json.xspeed && json.yspeed) {
+		if (typeof json.balls !== 'undefined') {
+			// TODO: ballsArray komplett neu aufbauen so wie es vom Gegener gesendet wurde
+			
+			for (var i=0; i<ballsArray.length; i++) {
+				if (ballsArray[i].color == json.balls[i].color) {
+					ballsArray[i].top = json.balls[i].top;
+					ballsArray[i].left = json.balls[i].left;
+				} else {
+					// remove ball
+					ballsArray[i].xspeed = 0;
+					ballsArray[i].yspeed = 0;
+					ballsArray[i].parentNode.removeChild(ballsArray[i]);
+					ballsArray.splice(i, 1);
+				}
+			}
+console.log('received ballsArray from server');
+		}
+		if (typeof json.xspeed != 'undefined' && typeof json.yspeed != 'undefined') {
+console.log('received push from server');
 			push_white_ball(json.xspeed, json.yspeed);
 		}
 		
-console.log('received ballsArray from server');
+
 		moveBall();
 	};
 

@@ -6,6 +6,7 @@ function initBalls() {
 	ball_yellow_full.full = true;
 	ball_yellow_full.top = tableheight/2-ballsize/2;
 	ball_yellow_full.left = (tablewidth/4)-ballsize/2+54;
+	ball_yellow_full.dropped = false;
 	billardballs.push(ball_yellow_full);
 
 	var ball_yellow_half = new Object();
@@ -14,6 +15,7 @@ function initBalls() {
 	ball_yellow_half.full = false;
 	ball_yellow_half.top = tableheight/2-ballsize;
 	ball_yellow_half.left = (tablewidth/4)-ballsize/2+27;
+	ball_yellow_half.dropped = false;
 	billardballs.push(ball_yellow_half);
 
 	var ball_blue_full = new Object();
@@ -22,6 +24,7 @@ function initBalls() {
 	ball_blue_full.full = true;
 	ball_blue_full.top = tableheight/2;
 	ball_blue_full.left = (tablewidth/4)-ballsize/2+27;//173;
+	ball_blue_full.dropped = false;
 	billardballs.push(ball_blue_full);
 
 	var ball_blue_half = new Object();
@@ -30,6 +33,7 @@ function initBalls() {
 	ball_blue_half.full = false;
 	ball_blue_half.top = tableheight/2-ballsize*1.5;
 	ball_blue_half.left = (tablewidth/4)-ballsize/2;
+	ball_blue_half.dropped = false;
 	billardballs.push(ball_blue_half);
 
 	var ball_red_full = new Object();
@@ -38,6 +42,7 @@ function initBalls() {
 	ball_red_full.full = true;
 	ball_red_full.top = tableheight/2+ballsize/2;
 	ball_red_full.left = (tablewidth/4)-ballsize/2;
+	ball_red_full.dropped = false;
 	billardballs.push(ball_red_full);
 
 	var ball_red_half = new Object();
@@ -46,6 +51,7 @@ function initBalls() {
 	ball_red_half.full = false;
 	ball_red_half.top = tableheight/2-ballsize*2;
 	ball_red_half.left = (tablewidth/4)-ballsize/2-27;
+	ball_red_half.dropped = false;
 	billardballs.push(ball_red_half);
 
 	var ball_pink_full = new Object();
@@ -54,6 +60,7 @@ function initBalls() {
 	ball_pink_full.full = true;
 	ball_pink_full.top = tableheight/2+ballsize;
 	ball_pink_full.left = (tablewidth/4)-ballsize/2-27;
+	ball_pink_full.dropped = false;
 	billardballs.push(ball_pink_full);
 
 	var ball_pink_half = new Object();
@@ -62,6 +69,7 @@ function initBalls() {
 	ball_pink_half.full = false;
 	ball_pink_half.top = tableheight/2+ballsize*1.5;
 	ball_pink_half.left = (tablewidth/4)-ballsize/2-54;
+	ball_pink_half.dropped = false;
 	billardballs.push(ball_pink_half);
 
 	var ball_orange_full = new Object();
@@ -70,6 +78,7 @@ function initBalls() {
 	ball_orange_full.full = true;
 	ball_orange_full.top = tableheight/2-ballsize*2.5;
 	ball_orange_full.left = (tablewidth/4)-ballsize/2-54;
+	ball_orange_full.dropped = false;
 	billardballs.push(ball_orange_full);
 
 	var ball_orange_half = new Object();
@@ -78,6 +87,7 @@ function initBalls() {
 	ball_orange_half.full = false;
 	ball_orange_half.top = tableheight/2-ballsize*1.5;
 	ball_orange_half.left = (tablewidth/4)-ballsize/2-54;
+	ball_orange_half.dropped = false;
 	billardballs.push(ball_orange_half);
 
 	var ball_green_full = new Object();
@@ -86,6 +96,7 @@ function initBalls() {
 	ball_green_full.full = true;
 	ball_green_full.top = tableheight/2+ballsize/2;
 	ball_green_full.left = (tablewidth/4)-ballsize/2-54;
+	ball_green_full.dropped = false;
 	billardballs.push(ball_green_full);
 
 	var ball_green_half = new Object();
@@ -94,6 +105,7 @@ function initBalls() {
 	ball_green_half.full = false;
 	ball_green_half.top = tableheight/2;
 	ball_green_half.left = (tablewidth/4)-ballsize/2-27;
+	ball_green_half.dropped = false;
 	billardballs.push(ball_green_half);
 
 	var ball_brown_full = new Object();
@@ -102,6 +114,7 @@ function initBalls() {
 	ball_brown_full.full = true;
 	ball_brown_full.top = tableheight/2-ballsize;
 	ball_brown_full.left = (tablewidth/4)-ballsize/2-27;
+	ball_brown_full.dropped = false;
 	billardballs.push(ball_brown_full);
 
 	var ball_brown_half = new Object();
@@ -110,6 +123,7 @@ function initBalls() {
 	ball_brown_half.full = false;
 	ball_brown_half.top = tableheight/2-ballsize/2;
 	ball_brown_half.left = (tablewidth/4)-ballsize/2-54;
+	ball_brown_half.dropped = false;
 	billardballs.push(ball_brown_half);
 
 	var ball_black_full = new Object();
@@ -118,6 +132,7 @@ function initBalls() {
 	ball_black_full.full = true;
 	ball_black_full.top = tableheight/2-ballsize/2;
 	ball_black_full.left = (tablewidth/4)-ballsize/2; //163 vorher 146;
+	ball_black_full.dropped = false;
 	billardballs.push(ball_black_full);
 
 	var ball_white_full = new Object();
@@ -126,6 +141,7 @@ function initBalls() {
 	ball_white_full.full = true;
 	ball_white_full.top = tableheight/2-ballsize/2;
 	ball_white_full.left = (tablewidth/4)*3-ballsize/2;
+	ball_white_full.dropped = false;
 	billardballs.push(ball_white_full);
 
 
@@ -152,9 +168,9 @@ function initBalls() {
 		ball.full = billardballs[i].full;
 
 		// defined position and speed
-			ball.xspeed = 0;
+		ball.xspeed = 0;
 		ball.yspeed = 0;
-			ball.left = billardballs[i].left;
+		ball.left = billardballs[i].left;
         ball.top = billardballs[i].top;
 		ball.style.WebkitTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
         ball.style.MozTransform = "translate3D("+ball.left+"px,"+ball.top+"px,0px)";
