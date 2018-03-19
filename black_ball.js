@@ -1,5 +1,7 @@
 function manage_black_ball_dropped() {
 
+	remove_mouselisteners();
+
 	if (ballsArray.length <= 1) {
 		// Regular Game Over
 		var text = 'Spieler'+current_player+' ist Gewinner!';
@@ -19,6 +21,8 @@ function manage_black_ball_dropped() {
 
 	var br = document.createElement('br');
 	layer.appendChild(br);
+	var br2 = document.createElement('br');
+	layer.appendChild(br2);
 
 	var button = document.createElement('button');
 	button.type = 'button';

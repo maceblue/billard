@@ -100,13 +100,13 @@ body,html {
 	box-shadow: -5px -5px 1px 1px rgba(0,0,0,0.3)
 }
 #end_game_layer span {
-	font-size: 50px;
+	font-size: 25px;
 	font-weight: bold;
-	font-family: fantasy;
-	line-height: 70px;
+	/*font-family: fantasy;*/
+	line-height: 40px;
 	position: relative;
 	top: 15px;
-	color: red;
+	color: darkorchid;
 }
 #end_game_layer button {
 	position: relative;

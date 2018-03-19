@@ -124,6 +124,14 @@ function moveBall() {
 			ballsArray[i].yspeed = ballsArray[i].yspeed*friction;
 		}
 		
+
+		// precisize all ball values
+		ballsArray[i].left = precisionRound(ballsArray[i].left);
+		ballsArray[i].top = precisionRound(ballsArray[i].top);
+		ballsArray[i].xspeed = precisionRound(ballsArray[i].xspeed);
+		ballsArray[i].yspeed = precisionRound(ballsArray[i].yspeed);
+
+
 		//APPLY THE NEW POSITION
 		ballsArray[i].style.WebkitTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";
         ballsArray[i].style.MozTransform = "translate3D("+ballsArray[i].left+"px,"+ballsArray[i].top+"px,0px)";

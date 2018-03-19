@@ -20,45 +20,8 @@ function init() {
 	document.body.appendChild(cue);
 
 	// add mouse function to push white ball
-	table_inner.addEventListener("mousedown", function(e) {
-		meter.style.display = 'block';
-		mousepower = 0;
-		meter_step = 100/speedLimit;
-	    mousedowntimer=setInterval(function() {
-	    	if (mousepower<=speedLimit) {
-	    		meter_span.style.width = mousepower * meter_step + '%';
-	    		mousepower++;
-	    	}
-// console.log('mousepower: ' + mousepower);
-	        var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
-	        var mouseY = parseInt(e.clientY)-39-ballsize/2;
-	        var dx = mouseX - white_ball_elem.left;
-	        var dy = mouseY - white_ball_elem.top;
-	        var radianAngle = Math.atan2(dy, dx);
-	        var xspeed = Math.cos(radianAngle) * mousepower;
-	        var yspeed = Math.sin(radianAngle) * mousepower;
-	        cue.style.left = parseInt(cue.style.left) - xspeed + 'px';
-	        cue.style.top = parseInt(cue.style.top) - yspeed + 'px';
-    
-	    }, 100);
-	});
-	table_inner.addEventListener("mouseup", function(e){
-		meter.style.display = 'none';
-		meter_span.style.width = '0px';
-	    if (mousedowntimer) clearInterval(mousedowntimer)
-	    var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
-        var mouseY = parseInt(e.clientY)-39-ballsize/2;
-        var dx = mouseX - white_ball_elem.left;
-        var dy = mouseY - white_ball_elem.top;
-        var radianAngle = Math.atan2(dy, dx);
-        var xspeed = Math.cos(radianAngle) * mousepower;
-        var yspeed = Math.sin(radianAngle) * mousepower;
-		push_white_ball(xspeed, yspeed);
-		if (connected) {
-            var json = JSON.stringify({ type: 'message', xspeed: xspeed, yspeed: yspeed });
-            server_connection.send(json);
-        }
-	});
+	table_inner.addEventListener("mousedown", mousedown_listener);
+	table_inner.addEventListener("mouseup", mouseup_listener);
 	
 	//window.onmousemove = handleMouseMove;
 
@@ -66,19 +29,7 @@ function init() {
     initBalls();
 
     // Bind Cue to white ball
-    table_inner.addEventListener("mousemove", function(e) {
-    	var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
-        var mouseY = parseInt(e.clientY)-39-ballsize/2;
-        var dx = mouseX - white_ball_elem.left;
-        var dy = mouseY - white_ball_elem.top;
-
-		var radianAngle = Math.atan2(dy, dx) * 180 / Math.PI;
-		radianAngle += 180;
-
-		cue.style.top = white_ball_elem.top+49 + 'px';
-		cue.style.left = white_ball_elem.left+74 + 'px';
-  		cue.style.transform = 'rotate('+radianAngle+'deg)';
-	});
+    table_inner.addEventListener("mousemove", mousemove_listener);
 
 	// SERVER-CONNECTION via websocket
 	window.WebSocket = window.WebSocket || window.MozWebSocket;
@@ -122,13 +73,13 @@ console.log('received client from server');
 			}
 console.log('received ballsArray from server');
 		}
-		if (typeof json.xspeed != 'undefined' && typeof json.yspeed != 'undefined') {
+		if (typeof json.xspeed != 'undefined' && typeof json.yspeed != 'undefined' && json.client != client) {
 console.log('received push from server');
 			push_white_ball(json.xspeed, json.yspeed);
 		}
 		
 
-		moveBall();
+		//moveBall();
 	};
 
 
@@ -138,4 +89,60 @@ console.log('received push from server');
 
     // loop
 	tick();
+}
+
+function mouseup_listener(e) {
+	meter.style.display = 'none';
+	meter_span.style.width = '0px';
+    if (mousedowntimer) clearInterval(mousedowntimer)
+    var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
+    var mouseY = parseInt(e.clientY)-39-ballsize/2;
+    var dx = mouseX - white_ball_elem.left;
+    var dy = mouseY - white_ball_elem.top;
+    var radianAngle = Math.atan2(dy, dx);
+    var xspeed = precisionRound(Math.cos(radianAngle) * mousepower);
+    var yspeed = precisionRound(Math.sin(radianAngle) * mousepower);
+    
+	push_white_ball(xspeed, yspeed);
+	if (connected) {
+        var json = JSON.stringify({ type: 'message', xspeed: xspeed, yspeed: yspeed, client: client });
+        server_connection.send(json);
+    }
+}
+
+function mousedown_listener(e) {
+	meter.style.display = 'block';
+	mousepower = 0;
+	meter_step = 100/speedLimit;
+    mousedowntimer=setInterval(function() {
+    	if (mousepower<=speedLimit) {
+    		meter_span.style.width = mousepower * meter_step + '%';
+    		mousepower++;
+    	}
+// console.log('mousepower: ' + mousepower);
+        var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
+        var mouseY = parseInt(e.clientY)-39-ballsize/2;
+        var dx = mouseX - white_ball_elem.left;
+        var dy = mouseY - white_ball_elem.top;
+        var radianAngle = Math.atan2(dy, dx);
+        var xspeed = Math.cos(radianAngle) * mousepower;
+        var yspeed = Math.sin(radianAngle) * mousepower;
+        cue.style.left = parseInt(cue.style.left) - xspeed + 'px';
+        cue.style.top = parseInt(cue.style.top) - yspeed + 'px';
+
+    }, 100);
+}
+
+function mousemove_listener(e) {
+	var mouseX = parseInt(e.clientX)-43-ballsize/2; // substract padding
+    var mouseY = parseInt(e.clientY)-39-ballsize/2;
+    var dx = mouseX - white_ball_elem.left;
+    var dy = mouseY - white_ball_elem.top;
+
+	var radianAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+	radianAngle += 180;
+
+	cue.style.top = white_ball_elem.top+49 + 'px';
+	cue.style.left = white_ball_elem.left+74 + 'px';
+	cue.style.transform = 'rotate('+radianAngle+'deg)';
 }

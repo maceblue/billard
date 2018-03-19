@@ -27,6 +27,8 @@ var connected = false;
 var server_host = '127.0.0.1';
 var server_port = 1337;
 
+var precision = 10;
+
 var client;
 
 window.requestAnimFrame = (function() {
@@ -50,4 +52,16 @@ function handleMouseMove(e) {
     // xspeed = Math.cos(radianAngle) * offSet;
     // yspeed = Math.sin(radianAngle) * offSet;
 
+}
+
+function precisionRound(number) {
+    var factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+}
+
+function remove_mouselisteners() {
+    var table_inner = document.getElementById('table_inner');
+    table_inner.removeEventListener('mousedown', mousedown_listener);
+    table_inner.removeEventListener('mouseup', mouseup_listener);
+    table_inner.removeEventListener('mousemove', mousemove_listener);
 }
